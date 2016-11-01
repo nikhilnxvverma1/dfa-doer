@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/dot-plot.iml" filepath="$PROJECT_DIR$/dot-plot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dfa-doer.iml" filepath="$PROJECT_DIR$/dfa-doer.iml" />
     </modules>
   </component>
 </project>
