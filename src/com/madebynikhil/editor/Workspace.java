@@ -18,6 +18,7 @@ public class Workspace {
     private Stack<Command> history=new Stack<>();
     private Stack<Command> future=new Stack<>();
     private String filename;
+    private DesignerController designerController;
 
 
     public Workspace(MainWindowController mainWindowController) {
@@ -27,5 +28,14 @@ public class Workspace {
     public Workspace(MainWindowController mainWindowController,String filename) {
         this.mainWindowController=mainWindowController;
         this.filename = filename;
+        this.designerController=new DesignerController(this,mainWindowController.getDesigner());
+    }
+
+    public MainWindowController getMainWindowController() {
+        return mainWindowController;
+    }
+
+    public DesignerController getDesignerController() {
+        return designerController;
     }
 }

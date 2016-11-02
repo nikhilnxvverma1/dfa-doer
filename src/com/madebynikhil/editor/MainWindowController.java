@@ -7,15 +7,17 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-
-import javax.swing.*;
+import javafx.scene.layout.Pane;
 
 /**
  * This is the front most controller that is attached to the user interface.
- * This handles all the events and delegates them to several classes
+ * This handles all the events and delegates them to several classes.
  * Created by NikhilVerma on 01/11/16.
  */
 public class MainWindowController {
+
+    @FXML private Pane designer;
+
     @FXML private Button testInput;
     @FXML private Button finishAnimation;
     @FXML private AnchorPane animationControls;
@@ -28,6 +30,7 @@ public class MainWindowController {
     @FXML private TextField editDescription;
     @FXML private Button descriptionOk;
     @FXML private Button descriptionCancel;
+
 
     @FXML
     private void openAnimationPane(){
@@ -122,5 +125,9 @@ public class MainWindowController {
 
         cancel.setVisible(visible);
         cancel.setManaged(visible);
+    }
+
+    public Pane getDesigner() {
+        return designer;
     }
 }
