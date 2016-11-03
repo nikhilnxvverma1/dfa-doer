@@ -15,6 +15,8 @@ import javafx.scene.shape.Circle;
  */
 public class StateView extends Group implements Observer{
 
+    public static final double STATE_RADIUS=10;
+    private static final double STATE_INNER_RADIUS=8;
     private DesignerController designerController;
     private State state;
 
@@ -25,10 +27,22 @@ public class StateView extends Group implements Observer{
     public StateView(DesignerController designerController, State state) {
         this.designerController = designerController;
         this.state = state;
+        this.state.subscribe(this);
+
+    }
+
+    private void initView(){
+        this.outerCircle=new Circle(STATE_RADIUS);
+        this.innerCircle=new Circle(STATE_INNER_RADIUS);
+        this.getChildren().add(this.outerCircle);
+        this.getChildren().add(this.innerCircle);
     }
 
     @Override
     public void observableModified(Observable observable) {
-
+        if(observable==state){
+            this.setLayoutX(state.getX());
+            this.setLayoutY(state.getY());
+        }
     }
 }

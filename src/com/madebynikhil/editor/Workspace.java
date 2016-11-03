@@ -22,7 +22,7 @@ public class Workspace {
 
 
     public Workspace(MainWindowController mainWindowController) {
-        this.mainWindowController=mainWindowController;
+        this(mainWindowController,null);
     }
 
     public Workspace(MainWindowController mainWindowController,String filename) {
@@ -37,5 +37,9 @@ public class Workspace {
 
     public DesignerController getDesignerController() {
         return designerController;
+    }
+
+    public StateMachine getStateMachine() {
+        return stateMachine;
     }
 }

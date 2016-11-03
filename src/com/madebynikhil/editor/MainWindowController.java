@@ -31,6 +31,11 @@ public class MainWindowController {
     @FXML private Button descriptionOk;
     @FXML private Button descriptionCancel;
 
+    private Workspace workspace;
+
+    public void initialize() {
+        this.workspace = new Workspace(this);
+    }
 
     @FXML
     private void openAnimationPane(){
@@ -50,23 +55,24 @@ public class MainWindowController {
 
     @FXML
     public void mouseClicked(MouseEvent mouseEvent){
-        if(mouseEvent.getClickCount()==2){
-            System.out.println("mouse double clicked");
-        }
+        this.workspace.getDesignerController().handleMouseClicked(mouseEvent);
     }
 
     @FXML
     public void mousePressed(MouseEvent mouseEvent){
         System.out.println("mouse pressed at "+mouseEvent.getScreenX()+" "+mouseEvent.getScreenY());
+        this.workspace.getDesignerController().handleMousePress(mouseEvent);
     }
 
     @FXML
     public void mouseDragged(MouseEvent mouseEvent){
         System.out.println("mouse dragged at "+mouseEvent.getScreenX()+" "+mouseEvent.getScreenY());
+        this.workspace.getDesignerController().handleMouseDrag(mouseEvent);
     }
     @FXML
     public void mouseReleased(MouseEvent mouseEvent){
         System.out.println("mouse released at "+mouseEvent.getScreenX()+" "+mouseEvent.getScreenY());
+        this.workspace.getDesignerController().handleMouseRelease(mouseEvent);
 
     }
 
