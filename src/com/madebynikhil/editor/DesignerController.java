@@ -37,6 +37,7 @@ public class DesignerController extends Observable{
             State newState=new State(mouseEvent.getX(),mouseEvent.getY());
             StateView stateView=new StateView(this,newState);
             this.designer.getChildren().add(stateView);
+            this.stateViewList.add(stateView);
 
         }
     }
@@ -69,11 +70,28 @@ public class DesignerController extends Observable{
         return new Point2D(x,y);
     }
 
+    public double lengthInModalSpace(double length){
+        return length;
+    }
+
+    public double lengthInViewSpace(double length){
+        return length;
+    }
+
+    public double lengthInCurrentZoom(double initialZoomLength){
+        return initialZoomLength;
+    }
+
+
     public Workspace getWorkspace() {
         return workspace;
     }
 
     public Pane getDesigner() {
         return designer;
+    }
+
+    public List<StateView> getStateViewList() {
+        return stateViewList;
     }
 }

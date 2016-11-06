@@ -4,13 +4,14 @@ import com.madebynikhil.editor.DesignerController;
 import com.madebynikhil.model.State;
 import com.madebynikhil.observer.Observable;
 import com.madebynikhil.observer.Observer;
-import com.madebynikhil.util.Point;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+
+import java.util.List;
 
 
 /**
@@ -27,6 +28,8 @@ public class StateView extends Group implements Observer{
     private Circle outerCircle;
     private Circle innerCircle;
     private Label label;
+    private TransitionView currentlyEditedTransition;
+    private boolean exitedThisStateAtLeastOnceWhileEditing;
 
     public StateView(DesignerController designerController, State state) {
         this.designerController = designerController;
@@ -38,9 +41,9 @@ public class StateView extends Group implements Observer{
     }
 
     private void initView(){
-        this.outerCircle=new Circle(STATE_RADIUS,Color.WHITE);
+        this.outerCircle=new Circle(designerController.lengthInCurrentZoom(STATE_RADIUS),Color.WHITE);
         this.outerCircle.setStroke(Color.BLACK);
-        this.innerCircle=new Circle(STATE_INNER_RADIUS,Color.WHITE);
+        this.innerCircle=new Circle(designerController.lengthInCurrentZoom(STATE_INNER_RADIUS),Color.WHITE);
         this.innerCircle.setVisible(state.isFinalState());
         this.innerCircle.setStroke(Color.BLACK);
         this.getChildren().add(this.outerCircle);
@@ -82,20 +85,57 @@ public class StateView extends Group implements Observer{
     }
 
     private void statePressed(MouseEvent event){
-
+        if(event.isShiftDown()){
+            currentlyEditedTransition=new TransitionView(designerController,this);
+            this.exitedThisStateAtLeastOnceWhileEditing =false;
+            designerController.getDesigner().getChildren().add(currentlyEditedTransition);
+            System.out.println("Made transition");
+        }
     }
 
     private void stateDragged(MouseEvent event){
-        System.out.println("Handling state drag");
         double sceneX=event.getSceneX();
         double sceneY=event.getSceneY();
         Point2D positionInsideDesigner=designerController.getDesigner().sceneToLocal(sceneX,sceneY);
-        Point2D modelPosition=designerController.toModelSpace(positionInsideDesigner);
-        state.setPosition(modelPosition.getX(),modelPosition.getY());
+
+        if(event.isShiftDown() && currentlyEditedTransition!=null){
+            //check if any state contains the point being dragged
+            List<StateView> stateViewList = designerController.getStateViewList();
+            StateView pointedState=null;
+            for(StateView stateView : stateViewList){
+                Point2D localPoint= stateView.parentToLocal(positionInsideDesigner);
+                if(stateView.contains(localPoint)){
+                    pointedState=stateView;
+                    break;
+                }
+            }
+
+            if((pointedState!=null)&&((pointedState!=this)||(exitedThisStateAtLeastOnceWhileEditing))){
+                currentlyEditedTransition.setFinalStateView(pointedState);
+            }else{
+                currentlyEditedTransition.setFinalStateView(null);
+                currentlyEditedTransition.setEndingPosition(positionInsideDesigner);
+                exitedThisStateAtLeastOnceWhileEditing =true;
+            }
+
+        }else{
+            Point2D modelPosition=designerController.toModelSpace(positionInsideDesigner);
+            state.setPosition(modelPosition.getX(),modelPosition.getY());
+        }
         event.consume();
     }
 
     private void stateReleased(MouseEvent event){
+        if(currentlyEditedTransition!=null){
+            if(currentlyEditedTransition.getFinalStateView()==null){
+                //remove this transition
+                designerController.getDesigner().getChildren().remove(currentlyEditedTransition);
+            }
+            currentlyEditedTransition=null;
+        }
+    }
 
+    public State getState() {
+        return state;
     }
 }
