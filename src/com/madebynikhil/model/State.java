@@ -38,6 +38,12 @@ public class State extends Observable{
         this.y = y;
     }
 
+    public void setPosition(double x,double y){
+        this.x=x;
+        this.y=y;
+        notifyAllObservers();
+    }
+
     public String getLabel() {
         return label;
     }
@@ -52,6 +58,7 @@ public class State extends Observable{
 
     public void setFinalState(boolean finalState) {
         this.finalState = finalState;
+        this.notifyAllObservers();
     }
 
     public List<Transition> getOutgoingTransitionList() {
