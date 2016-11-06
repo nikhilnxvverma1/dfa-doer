@@ -150,9 +150,9 @@ public class StateView extends Group implements Observer{
             if(transitionView.getInitialStateView() == this){
                 if(transitionView.getFinalStateView() == finalStateView) {
                     return transitionView;
-                }else{
-                    throw new RuntimeException("Transition is not pointing to this state as starting state");
                 }
+            }else{
+                throw new RuntimeException("Transition is not pointing to this state as starting state");
             }
         }
         return null;

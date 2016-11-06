@@ -18,7 +18,7 @@ public class Main extends Application{
 
     public static final String TITLE="Untitled";
     private static final String MAIN_VIEW_LOCATION="user-interface.fxml";
-    private static final String STYLESHEET="style.css";
+    private static final String STYLESHEET="user-interface.css";
 
     File fileToOpen=null;
 
@@ -30,7 +30,7 @@ public class Main extends Application{
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader=new FXMLLoader(getClass().getClassLoader().getResource(MAIN_VIEW_LOCATION));
         Parent root=fxmlLoader.load();
-//        root.getStylesheets().add(STYLESHEET);
+        root.getStylesheets().add(STYLESHEET);
         Scene scene=new Scene(root,WIDTH,HEIGHT);
         if(fileToOpen==null){
             primaryStage.setTitle(TITLE);

@@ -5,14 +5,19 @@ import com.madebynikhil.model.State;
 import com.madebynikhil.model.Transition;
 import com.madebynikhil.observer.Observable;
 import com.madebynikhil.observer.Observer;
+import javafx.event.ActionEvent;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * This view shows a pointing arrow between 2 states.
@@ -34,6 +39,7 @@ public class TransitionView extends Group implements Observer{
     private Line line;
     private Polygon arrowHead;
     private Label label;
+    private TextField textField;
     private Point2D startingPosition;
     private Point2D endingPosition;
 
@@ -62,7 +68,48 @@ public class TransitionView extends Group implements Observer{
         this.line.setStartY(0);
         this.arrowHead=new Polygon();
         this.setArrowHeadPoints();
-        this.getChildren().addAll(this.line,this.arrowHead);
+//        this.label=new Label("?");
+//        this.label.setCursor(Cursor.HAND);
+//        this.label.setTranslateY(-20);
+        this.textField=new TextField("?");
+        this.textField.setStyle("" +
+                "-fx-background-color: -fx-control-inner-background;" +
+                "    -fx-background-insets: 0;" +
+                "    -fx-padding: 1 3 1 3;");
+        this.textField.setTranslateY(-25);
+        this.textField.setTranslateX(-25);
+        this.textField.setMinWidth(50);
+        this.textField.setPrefWidth(50);
+        this.textField.setMaxWidth(400);
+        this.textField.setAlignment(Pos.CENTER);
+        this.textField.setFocusTraversable(false);
+        this.textField.setOnMouseClicked(this::editTransitions);
+        this.textField.setOnAction(this::commitEditingTransitions);
+        this.getChildren().addAll(this.line,this.arrowHead,this.textField);
+    }
+
+    private void editTransitions(MouseEvent event) {
+        this.textField.requestFocus();
+        this.textField.setStyle("" +
+                "-fx-background-color: #EEE;" +
+                "    -fx-background-insets: 0;" +
+                "    -fx-padding: 1 3 1 3;");
+    }
+
+    private void commitEditingTransitions(ActionEvent event) {
+        String text=textField.getText();
+        String [] symbols=text.split(",");
+        System.out.println("Revising transitions");
+
+        for (String symbol : symbols){
+            System.out.print(symbol);
+        }
+
+        designerController.getDesigner().requestFocus();
+        this.textField.setStyle("" +
+                "-fx-background-color: -fx-control-inner-background;" +
+                "    -fx-background-insets: 0;" +
+                "    -fx-padding: 1 3 1 3;");
     }
 
     private void setArrowHeadPoints(){
@@ -132,7 +179,15 @@ public class TransitionView extends Group implements Observer{
         this.line.setEndY(diffY);
         this.arrowHead.setLayoutX(diffX);
         this.arrowHead.setLayoutY(diffY);
-        this.arrowHead.setRotate(angleOfSegment(startingPosition,endingPosition));
+        double angle = angleOfSegment(startingPosition, endingPosition);
+        this.arrowHead.setRotate(angle);
+//        this.label.setRotate(angle);
+//        this.label.setLayoutX(diffX/2);
+//        this.label.setLayoutY(diffY/2);
+        this.textField.setRotate(angle);
+        this.textField.setLayoutX(diffX/2);
+        this.textField.setLayoutY(diffY/2);
+        this.textField.setVisible(this.initialStateView!=null && finalStateView!=null);
     }
 
     public void setFinalStateView(StateView finalStateView){
