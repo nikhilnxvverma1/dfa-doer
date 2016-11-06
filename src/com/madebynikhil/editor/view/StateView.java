@@ -2,6 +2,7 @@ package com.madebynikhil.editor.view;
 
 import com.madebynikhil.editor.DesignerController;
 import com.madebynikhil.model.State;
+import com.madebynikhil.model.Transition;
 import com.madebynikhil.observer.Observable;
 import com.madebynikhil.observer.Observer;
 import javafx.geometry.Point2D;
@@ -10,7 +11,9 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import org.omg.CORBA.SystemException;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -30,6 +33,7 @@ public class StateView extends Group implements Observer{
     private Label label;
     private TransitionView currentlyEditedTransition;
     private boolean exitedThisStateAtLeastOnceWhileEditing;
+    private List<TransitionView> transitionViewList=new LinkedList<>();
 
     public StateView(DesignerController designerController, State state) {
         this.designerController = designerController;
@@ -90,6 +94,7 @@ public class StateView extends Group implements Observer{
             this.exitedThisStateAtLeastOnceWhileEditing =false;
             designerController.getDesigner().getChildren().add(currentlyEditedTransition);
             System.out.println("Made transition");
+            event.consume();
         }
     }
 
@@ -127,12 +132,30 @@ public class StateView extends Group implements Observer{
 
     private void stateReleased(MouseEvent event){
         if(currentlyEditedTransition!=null){
-            if(currentlyEditedTransition.getFinalStateView()==null){
+            if((currentlyEditedTransition.getFinalStateView()==null)||
+                (this.containsTransition(currentlyEditedTransition.getFinalStateView())!=null)){
                 //remove this transition
                 designerController.getDesigner().getChildren().remove(currentlyEditedTransition);
+                System.out.println("Dismissing adding a new transition");
+            }else{
+                System.out.println("adding new transition to transition list");
+                this.transitionViewList.add(currentlyEditedTransition);
             }
             currentlyEditedTransition=null;
         }
+    }
+
+    private TransitionView containsTransition(StateView finalStateView){
+        for (TransitionView transitionView : transitionViewList){
+            if(transitionView.getInitialStateView() == this){
+                if(transitionView.getFinalStateView() == finalStateView) {
+                    return transitionView;
+                }else{
+                    throw new RuntimeException("Transition is not pointing to this state as starting state");
+                }
+            }
+        }
+        return null;
     }
 
     public State getState() {

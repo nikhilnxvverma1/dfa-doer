@@ -23,6 +23,7 @@ import java.util.List;
  */
 public class TransitionView extends Group implements Observer{
 
+    public static final double START_ARROW=70;
     private static final double ARROW_WIDTH=10;
     private static final double ARROW_HEIGHT=10;
     private DesignerController designerController;
@@ -36,9 +37,15 @@ public class TransitionView extends Group implements Observer{
     private Point2D startingPosition;
     private Point2D endingPosition;
 
+    public TransitionView(DesignerController designerController){
+        this.designerController = designerController;
+        this.initView();
+    }
+
     public TransitionView(DesignerController designerController,StateView initialStateView) {
         this.designerController = designerController;
         this.initialStateView = initialStateView;
+        this.initialStateView.getState().subscribe(this);
         this.transitionList.add(createBlankTransition(initialStateView));
         this.initView();
         setStartingPosition(new Point2D(initialStateView.getLayoutX(),initialStateView.getLayoutY()));
@@ -70,7 +77,11 @@ public class TransitionView extends Group implements Observer{
 
     @Override
     public void observableModified(Observable observable) {
-
+        if(initialStateView != null && observable == initialStateView.getState()){
+            recomputeEndpointsBasedOnStatePositions();
+        } else if(finalStateView != null && observable == finalStateView.getState()){
+            recomputeEndpointsBasedOnStatePositions();
+        }
     }
 
     public Point2D getStartingPosition() {
@@ -125,27 +136,51 @@ public class TransitionView extends Group implements Observer{
     }
 
     public void setFinalStateView(StateView finalStateView){
+        if(this.finalStateView!=null){
+           this.finalStateView.getState().unsubscribe(this);
+        }
         this.finalStateView=finalStateView;
         if (finalStateView!=null) {
             this.setFinalStateToAllTransitions(finalStateView.getState());
+            finalStateView.getState().subscribe(this);
         }else{
             this.setFinalStateToAllTransitions(null);
         }
 
-        if((initialStateView!=null)&&(finalStateView!=null)){
-            double radius=designerController.lengthInCurrentZoom(StateView.STATE_RADIUS);
+        recomputeEndpointsBasedOnStatePositions();
+    }
 
-            Point2D from=new Point2D(initialStateView.getLayoutX(),initialStateView.getLayoutY());
-            Point2D to=new Point2D(finalStateView.getLayoutX(),finalStateView.getLayoutY());
+    public void recomputeEndpointsBasedOnStatePositions(){
+        if(finalStateView != null) {
+            if(initialStateView != null){
+                double radius=designerController.lengthInCurrentZoom(StateView.STATE_RADIUS);
 
-            double angle=angleOfSegment(from,to);
-            Point2D initialCircumferencePoint=pointAtLength(from,angle,radius);
+                Point2D from=new Point2D(initialStateView.getLayoutX(),initialStateView.getLayoutY());
+                Point2D to=new Point2D(finalStateView.getLayoutX(),finalStateView.getLayoutY());
 
-            double reverseAngle=angleOfSegment(to,from);
-            Point2D finalCircumferencePoint=pointAtLength(to,reverseAngle,radius);
+                double angle=angleOfSegment(from,to);
+                Point2D initialCircumferencePoint=pointAtLength(from,angle,radius);
 
-            setEndpoints(initialCircumferencePoint,finalCircumferencePoint);
+                double reverseAngle=angleOfSegment(to,from);
+                Point2D finalCircumferencePoint=pointAtLength(to,reverseAngle,radius);
 
+                setEndpoints(initialCircumferencePoint,finalCircumferencePoint);
+
+            }else if (!(designerController.isCurrentlyEditingStartArrow()&&
+                    this==designerController.getStartArrowView())){
+                double length=designerController.lengthInCurrentZoom(TransitionView.START_ARROW);
+                double radius=designerController.lengthInCurrentZoom(StateView.STATE_RADIUS);
+                Point2D endingPosition = getEndingPosition();
+                Point2D newEndingPosition=new Point2D(
+                        finalStateView.getLayoutX()-radius,
+                        finalStateView.getLayoutY()
+                );
+                Point2D startingPosition=new Point2D(
+                        newEndingPosition.getX()-length,
+                        finalStateView.getLayoutY()
+                );
+                setEndpoints(startingPosition,newEndingPosition);
+            }
         }
     }
 
