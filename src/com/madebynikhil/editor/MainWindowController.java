@@ -1,5 +1,7 @@
 package com.madebynikhil.editor;
 
+import com.madebynikhil.Main;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,6 +10,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+
+import java.io.File;
 
 /**
  * This is the front most controller that is attached to the user interface.
@@ -15,6 +22,9 @@ import javafx.scene.layout.Pane;
  * Created by NikhilVerma on 01/11/16.
  */
 public class MainWindowController {
+
+    public static final String OPEN_FILE = "Open file";
+    public static final String SAVE_FILE_AS = "Save File As...";
 
     @FXML private Pane designer;
 
@@ -60,18 +70,18 @@ public class MainWindowController {
 
     @FXML
     public void mousePressed(MouseEvent mouseEvent){
-        System.out.println("mouse pressed at "+mouseEvent.getScreenX()+" "+mouseEvent.getScreenY());
+//        System.out.println("mouse pressed at "+mouseEvent.getScreenX()+" "+mouseEvent.getScreenY());
         this.workspace.getDesignerController().handleMousePress(mouseEvent);
     }
 
     @FXML
     public void mouseDragged(MouseEvent mouseEvent){
-        System.out.println("mouse dragged at "+mouseEvent.getScreenX()+" "+mouseEvent.getScreenY());
+//        System.out.println("mouse dragged at "+mouseEvent.getScreenX()+" "+mouseEvent.getScreenY());
         this.workspace.getDesignerController().handleMouseDrag(mouseEvent);
     }
     @FXML
     public void mouseReleased(MouseEvent mouseEvent){
-        System.out.println("mouse released at "+mouseEvent.getScreenX()+" "+mouseEvent.getScreenY());
+//        System.out.println("mouse released at "+mouseEvent.getScreenX()+" "+mouseEvent.getScreenY());
         this.workspace.getDesignerController().handleMouseRelease(mouseEvent);
 
     }
@@ -88,6 +98,10 @@ public class MainWindowController {
 
     @FXML
     private void commitEditingSymbols(ActionEvent actionEvent){
+        String invalidSymbol=this.workspace.setNewSymbolsFrom(editSymbols.getText());
+        if(invalidSymbol==null){
+            this.symbolsLink.setText("{"+this.workspace.getSymbolsAsCSV()+"}");
+        }
         this.allowSymbolEditing(false);
     }
 
@@ -107,6 +121,8 @@ public class MainWindowController {
 
     @FXML
     private void commitEditingDescription(ActionEvent actionEvent){
+        this.workspace.setNewDescription(editDescription.getText());
+        this.descriptionLink.setText(editDescription.getText());
         this.allowDescriptionEditing(false);
     }
 
@@ -135,5 +151,87 @@ public class MainWindowController {
 
     public Pane getDesigner() {
         return designer;
+    }
+
+    @FXML
+    void newDocument(ActionEvent event) {
+        System.out.println("New file");
+
+        //open new instance of the application
+        Platform.runLater(() -> {
+            try {
+                new Main().start(new Stage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @FXML
+    void openDocument(ActionEvent event) {
+        System.out.println("Opening document");
+        FileChooser fileChooser=new FileChooser();
+        fileChooser.setTitle(OPEN_FILE);
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("State Machine JSON","*.json"));
+        File file = fileChooser.showOpenDialog(designer.getScene().getWindow());
+        System.out.println("File to open is "+file);
+
+        if(workspace.isEmptyDocument()){
+            //open in the same instance of the application
+            workspace.initializeSystem(file);
+        }else if(file!=null){
+            //open new instance of the application running in a parallel thread
+            Platform.runLater(new Runnable() {
+                public void run() {
+                    try {
+                        new Main(file).start(new Stage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    }
+
+    @FXML
+    void saveDocument(ActionEvent event) {
+        if(workspace.getFile()==null){
+            saveAsDocument(event);
+        }else{
+            System.out.println("Saving the document in the current file");
+        }
+    }
+
+    @FXML
+    void saveAsDocument(ActionEvent event) {
+        System.out.println("Saving the document as a new file");
+        this.saveAsNewFile();
+    }
+
+    private boolean saveAsNewFile(){
+        //open the file chooser pop up
+        FileChooser fileChooser=new FileChooser();
+        fileChooser.setTitle(SAVE_FILE_AS);
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("State Machine's JSON","*.json"));
+        Window window = designer.getScene().getWindow();
+        File file = fileChooser.showSaveDialog(window);
+        if(file!=null){
+            System.out.println("File chosen is "+file);
+            workspace.saveAs(file);
+            return true;
+        }else{
+            System.out.println("No file chosen ");
+            return false;
+        }
+    }
+
+    @FXML
+    void export(ActionEvent event) {
+
+    }
+
+    @FXML
+    void quit(ActionEvent event) {
+        Platform.exit();
     }
 }

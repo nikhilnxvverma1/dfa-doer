@@ -3,7 +3,9 @@ package com.madebynikhil.editor;
 import com.madebynikhil.editor.command.Command;
 import com.madebynikhil.model.StateMachine;
 
+import java.io.File;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
@@ -20,6 +22,7 @@ public class Workspace {
     private Stack<Command> history=new Stack<>();
     private Stack<Command> future=new Stack<>();
     private String filename;
+    private File file;
     private DesignerController designerController;
 
 
@@ -69,7 +72,41 @@ public class Workspace {
         return null;
     }
 
+    public String getSymbolsAsCSV(){
+        StringBuilder stringBuilder=new StringBuilder();
+
+        Iterator<String> iterator = this.stateMachine.getSymbolList().iterator();
+        while(iterator.hasNext()){
+            String symbol =iterator.next();
+            stringBuilder.append(symbol);
+            if(iterator.hasNext()){
+                stringBuilder.append(",");
+            }
+        }
+        return stringBuilder.toString();
+    }
+
     public void setNewDescription(String text){
         this.stateMachine.setDescription(text);
+    }
+
+    public void saveAs(File file){
+        this.file=file;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public File getFile() {
+        return file;
+    }
+    public boolean isEmptyDocument(){
+        //TODO
+        return false;
+    }
+
+    public void initializeSystem(File file) {
+        //TODO
     }
 }
