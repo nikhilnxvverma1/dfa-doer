@@ -1,6 +1,7 @@
 package com.madebynikhil.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Root model class containing all the states along with description and symbols.
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 public class StateMachine {
 
     private String description;
-    private ArrayList<String> symbolList=new ArrayList<>();
+    private List<String> symbolList=new ArrayList<>();
     private State startingState;
     private ArrayList<State> stateList=new ArrayList<>();
 
@@ -27,11 +28,11 @@ public class StateMachine {
         this.description = description;
     }
 
-    public ArrayList<String> getSymbolList() {
+    public List<String> getSymbolList() {
         return symbolList;
     }
 
-    public void setSymbolList(ArrayList<String> symbolList) {
+    public void setSymbolList(List<String> symbolList) {
         this.symbolList = symbolList;
     }
 

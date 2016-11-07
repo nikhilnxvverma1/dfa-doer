@@ -15,9 +15,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * This view shows a pointing arrow between 2 states.
@@ -34,7 +34,7 @@ public class TransitionView extends Group implements Observer{
     private DesignerController designerController;
     private StateView initialStateView;
     private StateView finalStateView;
-    private List<Transition> transitionList=new LinkedList<>();
+    private Transition transition;
 
     private Line line;
     private Polygon arrowHead;
@@ -52,7 +52,7 @@ public class TransitionView extends Group implements Observer{
         this.designerController = designerController;
         this.initialStateView = initialStateView;
         this.initialStateView.getState().subscribe(this);
-        this.transitionList.add(createBlankTransition(initialStateView));
+        this.transition=createBlankTransition(initialStateView);
         this.initView();
         setStartingPosition(new Point2D(initialStateView.getLayoutX(),initialStateView.getLayoutY()));
     }
@@ -99,12 +99,9 @@ public class TransitionView extends Group implements Observer{
     private void commitEditingTransitions(ActionEvent event) {
         String text=textField.getText();
         String [] symbols=text.split(",");
-        System.out.println("Revising transitions");
-
-        for (String symbol : symbols){
-            System.out.print(symbol);
-        }
-
+        System.out.println("Revising transitions");//TODO validate first
+        List<String> symbolList = Arrays.asList(symbols);
+        this.transition.setSymbolList(symbolList);
         designerController.getDesigner().requestFocus();
         this.textField.setStyle("" +
                 "-fx-background-color: -fx-control-inner-background;" +
@@ -196,10 +193,12 @@ public class TransitionView extends Group implements Observer{
         }
         this.finalStateView=finalStateView;
         if (finalStateView!=null) {
-            this.setFinalStateToAllTransitions(finalStateView.getState());
             finalStateView.getState().subscribe(this);
-        }else{
-            this.setFinalStateToAllTransitions(null);
+            if (transition!=null) {
+                transition.setTo(finalStateView.getState());
+            }
+        }else if(transition!=null){
+            transition.setTo(null);
         }
 
         recomputeEndpointsBasedOnStatePositions();
@@ -236,12 +235,6 @@ public class TransitionView extends Group implements Observer{
                 );
                 setEndpoints(startingPosition,newEndingPosition);
             }
-        }
-    }
-
-    private void setFinalStateToAllTransitions(State finalState){
-        for (Transition transition : transitionList){
-            transition.setTo(finalState);
         }
     }
 

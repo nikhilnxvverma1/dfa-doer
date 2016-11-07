@@ -36,10 +36,11 @@ public class DesignerController extends Observable{
         if(mouseEvent.getClickCount()==2){
             System.out.println("mouse double clicked");
             State newState=new State(mouseEvent.getX(),mouseEvent.getY());
+            newState.setLabel("S"+(stateViewList.size()+1));
             StateView stateView=new StateView(this,newState);
             this.designer.getChildren().add(stateView);
             this.stateViewList.add(stateView);
-
+            this.workspace.getStateMachine().getStateList().add(stateView.getState());
         }
     }
 
@@ -87,6 +88,9 @@ public class DesignerController extends Observable{
                 designer.getChildren().remove(startArrowView);
                 startArrowView=null;
             }else{
+
+                //new starting state
+                this.workspace.getStateMachine().setStartingState(startArrowView.getFinalStateView().getState());
                 double length=lengthInCurrentZoom(TransitionView.START_ARROW);
                 double radius=lengthInCurrentZoom(StateView.STATE_RADIUS);
                 Point2D endingPosition = startArrowView.getEndingPosition();

@@ -3,6 +3,8 @@ package com.madebynikhil.editor;
 import com.madebynikhil.editor.command.Command;
 import com.madebynikhil.model.StateMachine;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -29,6 +31,13 @@ public class Workspace {
         this.mainWindowController=mainWindowController;
         this.filename = filename;
         this.designerController=new DesignerController(this,mainWindowController.getDesigner());
+        if(filename==null){
+            this.stateMachine=new StateMachine();
+
+        }else{
+            //TODO load from json file
+            //TODO initialize the views
+        }
     }
 
     public MainWindowController getMainWindowController() {
@@ -41,5 +50,26 @@ public class Workspace {
 
     public StateMachine getStateMachine() {
         return stateMachine;
+    }
+
+    /**
+     * Sets the new symbol from a comma separated string
+     * @param text comma seperated string received usualy from a textfield
+     * @return null if everything is perfect, otherwise it spits out the invalid symbol
+     */
+    public String setNewSymbolsFrom(String text){
+
+        String [] symbols=text.split(",");
+        for (String symbol : symbols){
+            if(symbol.length()!=1){
+                return symbol;
+            }
+        }
+        this.stateMachine.setSymbolList(Arrays.asList(symbols));
+        return null;
+    }
+
+    public void setNewDescription(String text){
+        this.stateMachine.setDescription(text);
     }
 }

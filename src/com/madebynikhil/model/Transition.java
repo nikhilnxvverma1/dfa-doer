@@ -10,7 +10,7 @@ import java.util.List;
 public class Transition {
     private State from;
     private State to;
-    private List<Integer> symbolIndices=new LinkedList<>();
+    private List<String> symbolList;
 
     public Transition(State from, State to) {
         this.from = from;
@@ -33,11 +33,11 @@ public class Transition {
         this.to = to;
     }
 
-    public List<Integer> getSymbolIndices() {
-        return symbolIndices;
+    public List<String> getSymbolList() {
+        return symbolList;
     }
 
-    public void setSymbolIndices(List<Integer> symbolIndices) {
-        this.symbolIndices = symbolIndices;
+    public void setSymbolList(List<String> symbolList) {
+        this.symbolList = symbolList;
     }
 }

@@ -6,11 +6,13 @@ import com.madebynikhil.model.Transition;
 import com.madebynikhil.observer.Observable;
 import com.madebynikhil.observer.Observer;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.TextAlignment;
 import org.omg.CORBA.SystemException;
 
 import java.util.LinkedList;
@@ -50,8 +52,12 @@ public class StateView extends Group implements Observer{
         this.innerCircle=new Circle(designerController.lengthInCurrentZoom(STATE_INNER_RADIUS),Color.WHITE);
         this.innerCircle.setVisible(state.isFinalState());
         this.innerCircle.setStroke(Color.BLACK);
+        this.label=new Label(this.state.getLabel());
+        this.label.setTranslateX(-7);
+        this.label.setTranslateY(-7);
         this.getChildren().add(this.outerCircle);
         this.getChildren().add(this.innerCircle);
+        this.getChildren().add(this.label);
         Point2D position = this.designerController.toViewSpace(state.getX(), state.getY());
         this.setLayoutX(position.getX());
         this.setLayoutY(position.getY());
@@ -60,15 +66,17 @@ public class StateView extends Group implements Observer{
     private void setupEvents(){
         this.outerCircle.addEventHandler(MouseEvent.MOUSE_CLICKED,this::stateClicked);
         this.innerCircle.addEventHandler(MouseEvent.MOUSE_CLICKED,this::stateClicked);
+        this.label.addEventHandler(MouseEvent.MOUSE_CLICKED,this::stateClicked);
 
         this.outerCircle.addEventHandler(MouseEvent.MOUSE_PRESSED,this::statePressed);
         this.innerCircle.addEventHandler(MouseEvent.MOUSE_PRESSED,this::statePressed);
+        this.label.addEventHandler(MouseEvent.MOUSE_PRESSED,this::statePressed);
 
         this.outerCircle.addEventHandler(MouseEvent.MOUSE_DRAGGED,this::stateDragged);
-        this.innerCircle.addEventHandler(MouseEvent.MOUSE_DRAGGED,this::stateDragged);
+        this.label.addEventHandler(MouseEvent.MOUSE_DRAGGED,this::stateDragged);
 
         this.outerCircle.addEventHandler(MouseEvent.MOUSE_RELEASED,this::stateReleased);
-        this.innerCircle.addEventHandler(MouseEvent.MOUSE_RELEASED,this::stateReleased);
+        this.label.addEventHandler(MouseEvent.MOUSE_RELEASED,this::stateReleased);
     }
 
     @Override
