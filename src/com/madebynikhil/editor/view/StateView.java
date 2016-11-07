@@ -23,7 +23,7 @@ import java.util.List;
  * View corresponding to one state that this is observing.
  * Created by NikhilVerma on 02/11/16.
  */
-public class StateView extends Group implements Observer{
+public class StateView extends DesignerElementView implements Observer{
 
     public static final double STATE_RADIUS=25;
     private static final double STATE_INNER_RADIUS=20;
@@ -77,6 +77,14 @@ public class StateView extends Group implements Observer{
 
         this.outerCircle.addEventHandler(MouseEvent.MOUSE_RELEASED,this::stateReleased);
         this.label.addEventHandler(MouseEvent.MOUSE_RELEASED,this::stateReleased);
+
+        this.outerCircle.addEventHandler(MouseEvent.MOUSE_ENTERED,(e)->designerController.mouseEntered(this));
+        this.innerCircle.addEventHandler(MouseEvent.MOUSE_ENTERED,(e)->designerController.mouseEntered(this));
+        this.label.addEventHandler(MouseEvent.MOUSE_ENTERED,(e)->designerController.mouseEntered(this));
+
+        this.outerCircle.addEventHandler(MouseEvent.MOUSE_EXITED,(e)->designerController.mouseExited(this));
+        this.innerCircle.addEventHandler(MouseEvent.MOUSE_EXITED,(e)->designerController.mouseExited(this));
+        this.label.addEventHandler(MouseEvent.MOUSE_EXITED,(e)->designerController.mouseExited(this));
     }
 
     @Override
@@ -168,5 +176,12 @@ public class StateView extends Group implements Observer{
 
     public State getState() {
         return state;
+    }
+
+    @Override
+    public void setColor(Color color) {
+        this.innerCircle.setStroke(color);
+        this.outerCircle.setStroke(color);
+        //intentionally doesn't do it to the label
     }
 }

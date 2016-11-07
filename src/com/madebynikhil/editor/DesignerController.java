@@ -1,15 +1,14 @@
 package com.madebynikhil.editor;
 
-import com.madebynikhil.editor.view.StartArrowView;
+import com.madebynikhil.editor.view.DesignerElementView;
 import com.madebynikhil.editor.view.StateView;
 import com.madebynikhil.editor.view.TransitionView;
 import com.madebynikhil.model.State;
-import com.madebynikhil.model.Transition;
 import com.madebynikhil.observer.Observable;
-import com.madebynikhil.util.Point;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +18,11 @@ import java.util.List;
  * Created by NikhilVerma on 02/11/16.
  */
 public class DesignerController extends Observable{
+
+    public static final Color DEFAULT_COLOR=Color.BLACK;
+    public static final Color HOVER_COLOR=Color.LIGHTBLUE;
+    public static final Color SELECTED_COLOR=Color.BLUE;
+
     private static final double INITIAL_ZOOM=0;
     private Workspace workspace;
     private Pane designer;
@@ -155,5 +159,13 @@ public class DesignerController extends Observable{
 
     public TransitionView getStartArrowView() {
         return startArrowView;
+    }
+
+    public void mouseEntered(DesignerElementView elementView){
+        elementView.setColor(HOVER_COLOR);
+    }
+
+    public void mouseExited(DesignerElementView elementView){
+        elementView.setColor(DEFAULT_COLOR);//TODO selection check
     }
 }

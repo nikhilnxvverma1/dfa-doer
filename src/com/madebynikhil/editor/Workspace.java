@@ -1,5 +1,6 @@
 package com.madebynikhil.editor;
 
+import com.google.gson.Gson;
 import com.madebynikhil.editor.command.Command;
 import com.madebynikhil.model.StateMachine;
 
@@ -91,6 +92,10 @@ public class Workspace {
     }
 
     public void saveAs(File file){
+        Gson gson=new Gson();
+        String json=gson.toJson(stateMachine);
+        System.out.println("Json is :");
+        System.out.println(json);
         this.file=file;
     }
 

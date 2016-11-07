@@ -12,6 +12,7 @@ import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 
@@ -26,7 +27,7 @@ import java.util.List;
  * the starting state.
  * Created by NikhilVerma on 02/11/16.
  */
-public class TransitionView extends Group implements Observer{
+public class TransitionView extends DesignerElementView implements Observer{
 
     public static final double START_ARROW=70;
     private static final double ARROW_WIDTH=10;
@@ -46,6 +47,7 @@ public class TransitionView extends Group implements Observer{
     public TransitionView(DesignerController designerController){
         this.designerController = designerController;
         this.initView();
+        this.setupEvents();
     }
 
     public TransitionView(DesignerController designerController,StateView initialStateView) {
@@ -54,11 +56,13 @@ public class TransitionView extends Group implements Observer{
         this.initialStateView.getState().subscribe(this);
         this.transition=createBlankTransition(initialStateView);
         this.initView();
+        this.setupEvents();
         setStartingPosition(new Point2D(initialStateView.getLayoutX(),initialStateView.getLayoutY()));
     }
 
     private Transition createBlankTransition(StateView initialState){
         Transition transition=new Transition(initialState.getState(),null);
+        initialState.getState().getOutgoingTransitionList().add(transition);
         return transition;
     }
 
@@ -83,12 +87,27 @@ public class TransitionView extends Group implements Observer{
         this.textField.setMaxWidth(400);
         this.textField.setAlignment(Pos.CENTER);
         this.textField.setFocusTraversable(false);
-        this.textField.setOnMouseClicked(this::editTransitions);
-        this.textField.setOnAction(this::commitEditingTransitions);
         this.getChildren().addAll(this.line,this.arrowHead,this.textField);
     }
 
+    private void setupEvents(){
+
+        this.textField.setOnMouseClicked(this::editTransitions);
+        this.textField.setOnAction(this::commitEditingTransitions);
+
+        this.line.addEventHandler(MouseEvent.MOUSE_ENTERED,(e)->designerController.mouseEntered(this));
+        this.textField.addEventHandler(MouseEvent.MOUSE_ENTERED,(e)->designerController.mouseEntered(this));
+        this.arrowHead.addEventHandler(MouseEvent.MOUSE_ENTERED,(e)->designerController.mouseEntered(this));
+
+        this.line.addEventHandler(MouseEvent.MOUSE_EXITED,(e)->designerController.mouseExited(this));
+        this.textField.addEventHandler(MouseEvent.MOUSE_EXITED,(e)->designerController.mouseExited(this));
+        this.arrowHead.addEventHandler(MouseEvent.MOUSE_EXITED,(e)->designerController.mouseExited(this));
+    }
+
     private void editTransitions(MouseEvent event) {
+//        if(event.getClickCount()<2){
+//            return;
+//        }
         this.textField.requestFocus();
         this.textField.setStyle("" +
                 "-fx-background-color: #EEE;" +
@@ -287,5 +306,11 @@ public class TransitionView extends Group implements Observer{
 
     public StateView getFinalStateView() {
         return finalStateView;
+    }
+
+    @Override
+    public void setColor(Color color) {
+        this.line.setStroke(color);
+        this.arrowHead.setFill(color);
     }
 }

@@ -1,6 +1,5 @@
 package com.madebynikhil.model;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -8,8 +7,9 @@ import java.util.List;
  * Created by NikhilVerma on 01/11/16.
  */
 public class Transition {
-    private State from;
-    private State to;
+
+    private transient State from;
+    private transient State to;
     private List<String> symbolList;
 
     public Transition(State from, State to) {

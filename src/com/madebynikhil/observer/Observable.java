@@ -9,7 +9,7 @@ import java.util.List;
  */
 public abstract class Observable {
 
-    private List<Observer> observerList=new LinkedList<>();
+    private transient List<Observer> observerList=new LinkedList<>();
 
     public void notifyAllObservers(){
         for (Observer observer : observerList){
