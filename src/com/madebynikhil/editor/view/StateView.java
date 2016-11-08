@@ -100,8 +100,9 @@ public class StateView extends DesignerElementView implements Observer{
     private void stateClicked(MouseEvent mouseEvent){
         if(mouseEvent.getClickCount()==2){
             this.state.setFinalState(!this.state.isFinalState());
-            mouseEvent.consume();
         }
+        designerController.selectElement(this,!mouseEvent.isShiftDown());
+        mouseEvent.consume();
     }
 
     private void statePressed(MouseEvent event){
@@ -111,6 +112,8 @@ public class StateView extends DesignerElementView implements Observer{
             designerController.getDesigner().getChildren().add(currentlyEditedTransition);
             System.out.println("Made transition");
             event.consume();
+        }else{
+            designerController.selectElement(this);
         }
     }
 

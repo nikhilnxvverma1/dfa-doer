@@ -6,6 +6,7 @@ import com.madebynikhil.model.Transition;
 import com.madebynikhil.observer.Observable;
 import com.madebynikhil.observer.Observer;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -102,6 +103,15 @@ public class TransitionView extends DesignerElementView implements Observer{
         this.line.addEventHandler(MouseEvent.MOUSE_EXITED,(e)->designerController.mouseExited(this));
         this.textField.addEventHandler(MouseEvent.MOUSE_EXITED,(e)->designerController.mouseExited(this));
         this.arrowHead.addEventHandler(MouseEvent.MOUSE_EXITED,(e)->designerController.mouseExited(this));
+
+        EventHandler<MouseEvent> selectThis=(e)->{
+            designerController.selectElement(this,!e.isShiftDown());
+            e.consume();
+        };
+
+        this.line.addEventHandler(MouseEvent.MOUSE_CLICKED,selectThis);
+        this.arrowHead.addEventHandler(MouseEvent.MOUSE_CLICKED,selectThis);
+
     }
 
     private void editTransitions(MouseEvent event) {

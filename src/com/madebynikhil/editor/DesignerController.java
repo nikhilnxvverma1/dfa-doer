@@ -30,6 +30,7 @@ public class DesignerController extends Observable{
     private List<StateView> stateViewList=new LinkedList<>();
     private TransitionView startArrowView;
     private boolean currentlyEditingStartArrow=false;
+    private LinkedList<DesignerElementView> selectedElements=new LinkedList<>();
 
     public DesignerController(Workspace workspace, Pane designer) {
         this.workspace = workspace;
@@ -45,6 +46,9 @@ public class DesignerController extends Observable{
             this.designer.getChildren().add(stateView);
             this.stateViewList.add(stateView);
             this.workspace.getStateMachine().getStateList().add(stateView.getState());
+            selectElement(stateView);
+        }else{
+            clearSelection();
         }
     }
 
@@ -62,7 +66,7 @@ public class DesignerController extends Observable{
     public void handleMouseDrag(MouseEvent event){
 
         if(event.isShiftDown() && startArrowView!=null){
-            System.out.println("Comming here");
+
             Point2D position = new Point2D(event.getX(), event.getY());
 
             //check if any state contains the point being dragged
@@ -162,10 +166,43 @@ public class DesignerController extends Observable{
     }
 
     public void mouseEntered(DesignerElementView elementView){
-        elementView.setColor(HOVER_COLOR);
+        if (!selectedElements.contains(elementView)) {
+            elementView.setColor(HOVER_COLOR);
+        }
     }
 
     public void mouseExited(DesignerElementView elementView){
-        elementView.setColor(DEFAULT_COLOR);//TODO selection check
+        if (!selectedElements.contains(elementView)) {
+            elementView.setColor(DEFAULT_COLOR);
+        }
+    }
+
+    public void selectElement(DesignerElementView elementView,boolean clearExisting){
+        if(!selectedElements.contains(elementView)){
+            if(clearExisting){
+                clearSelection();
+            }
+            this.selectedElements.add(elementView);
+            elementView.setColor(SELECTED_COLOR);
+        }
+    }
+
+    public void selectElement(DesignerElementView elementView){
+        this.selectElement(elementView,true);
+    }
+
+    public void unSelectElement(DesignerElementView elementView){
+        if(selectedElements.contains(elementView)){
+            this.selectedElements.remove(elementView);
+            elementView.setColor(DEFAULT_COLOR);
+        }
+    }
+
+    private void clearSelection(){
+
+        for(DesignerElementView elementView: this.selectedElements){
+            elementView.setColor(DEFAULT_COLOR);
+        }
+        selectedElements.clear();
     }
 }
