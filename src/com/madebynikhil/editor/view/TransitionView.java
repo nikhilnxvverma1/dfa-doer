@@ -1,7 +1,7 @@
 package com.madebynikhil.editor.view;
 
 import com.madebynikhil.editor.DesignerController;
-import com.madebynikhil.model.State;
+import com.madebynikhil.editor.Workspace;
 import com.madebynikhil.model.Transition;
 import com.madebynikhil.observer.Observable;
 import com.madebynikhil.observer.Observer;
@@ -9,7 +9,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -18,7 +17,6 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -61,6 +59,18 @@ public class TransitionView extends DesignerElementView implements Observer{
         setStartingPosition(new Point2D(initialStateView.getLayoutX(),initialStateView.getLayoutY()));
     }
 
+    public TransitionView(DesignerController designerController,StateView initialStateView,StateView finalStateView) {
+        this.designerController = designerController;
+        this.initialStateView = initialStateView;
+        this.finalStateView = finalStateView;
+        this.initialStateView.getState().subscribe(this);
+        this.finalStateView.getState().subscribe(this);
+        this.transition=initialStateView.getState().getOutgoingTransitionMap().get(finalStateView.getState().getName());
+        this.initView();
+        this.setupEvents();
+        recomputeEndpointsBasedOnStatePositions();
+    }
+
     private Transition createBlankTransition(StateView initialState){
         Transition transition=new Transition(initialState.getState(),null);
         return transition;
@@ -75,7 +85,8 @@ public class TransitionView extends DesignerElementView implements Observer{
 //        this.label=new Label("?");
 //        this.label.setCursor(Cursor.HAND);
 //        this.label.setTranslateY(-20);
-        this.textField=new TextField("?");
+
+        this.textField=new TextField(getLabelBasedOnSymbolList());
         this.textField.setStyle("" +
                 "-fx-background-color: -fx-control-inner-background;" +
                 "    -fx-background-insets: 0;" +
@@ -88,6 +99,18 @@ public class TransitionView extends DesignerElementView implements Observer{
         this.textField.setAlignment(Pos.CENTER);
         this.textField.setFocusTraversable(false);
         this.getChildren().addAll(this.line,this.arrowHead,this.textField);
+    }
+
+    private String getLabelBasedOnSymbolList(){
+        if(transition==null){//case for start arrow
+            return null;
+        }else{
+            if(transition.getSymbolList().size()>0){
+                return Workspace.getSymbolsAsCSV(transition.getSymbolList());
+            }else{
+                return "?";
+            }
+        }
     }
 
     private void setupEvents(){

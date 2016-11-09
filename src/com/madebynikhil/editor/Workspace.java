@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.madebynikhil.editor.command.Command;
+import com.madebynikhil.editor.view.StateView;
+import com.madebynikhil.editor.view.TransitionView;
 import com.madebynikhil.model.State;
 import com.madebynikhil.model.StateMachine;
 import com.madebynikhil.model.Transition;
@@ -77,10 +79,10 @@ public class Workspace {
         return null;
     }
 
-    public String getSymbolsAsCSV(){
+    public static String getSymbolsAsCSV(List<String> symbolList){
         StringBuilder stringBuilder=new StringBuilder();
 
-        Iterator<String> iterator = this.stateMachine.getSymbolList().iterator();
+        Iterator<String> iterator = symbolList.iterator();
         while(iterator.hasNext()){
             String symbol =iterator.next();
             stringBuilder.append(symbol);
@@ -121,7 +123,7 @@ public class Workspace {
             stateMachine = gson.fromJson(reader, StateMachine.class);
             setTransientModelAttributesAndRemoveDuplicates();
             this.file=file;
-
+            designerController.initView();
         } catch (FileNotFoundException e) {
             //TODO alert the user
             e.printStackTrace();
@@ -133,6 +135,9 @@ public class Workspace {
         Map <String,State>stateMap=new HashMap<>();
         for(State state: stateMachine.getStateList()){
             stateMap.put(state.getName(),state);
+
+            //the stays null during deserialization by gson, therefore we must do it manually
+            state.setObserverList(new LinkedList<>());
         }
 
         //set transient to and from states in transitions
@@ -141,14 +146,21 @@ public class Workspace {
             for(Map.Entry<String, Transition> entry : entries){
                 String outgoingStateName = entry.getKey();
                 Transition outgoingTransition=entry.getValue();
+
+                //if there are not symbols then make sure to set a blank list in the data structure
+                if (outgoingTransition.getSymbolList()==null) {
+                    outgoingTransition.setSymbolList(new LinkedList<>());
+                }
                 outgoingTransition.setFrom(state);
                 outgoingTransition.setTo(stateMap.get(outgoingStateName));
             }
         }
 
         //set the starting state to point to a single object instead of a duplicate
-        State startingState=stateMap.get(stateMachine.getStartingState().getName());
-        stateMachine.setStartingState(startingState);
+        if (stateMachine.getStartingState()!=null) {
+            State startingState=stateMap.get(stateMachine.getStartingState().getName());
+            stateMachine.setStartingState(startingState);
+        }
     }
 
     public String getFilename() {
@@ -162,7 +174,5 @@ public class Workspace {
         return stateMachine.getStateList().isEmpty();
     }
 
-    public void initView() {
-        //TODO
-    }
+
 }

@@ -100,7 +100,7 @@ public class MainWindowController {
     private void commitEditingSymbols(ActionEvent actionEvent){
         String invalidSymbol=this.workspace.setNewSymbolsFrom(editSymbols.getText());
         if(invalidSymbol==null){
-            this.symbolsLink.setText("{"+this.workspace.getSymbolsAsCSV()+"}");
+            this.symbolsLink.setText("{"+Workspace.getSymbolsAsCSV(workspace.getStateMachine().getSymbolList())+"}");
         }
         this.allowSymbolEditing(false);
     }
@@ -179,7 +179,6 @@ public class MainWindowController {
         if(workspace.isEmptyDocument()){
             //open in the same instance of the application
             workspace.loadFromJsonFile(file);
-            workspace.initView();
         }else if(file!=null){
             //open new instance of the application running in a parallel thread
             Platform.runLater(new Runnable() {

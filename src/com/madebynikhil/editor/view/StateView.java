@@ -35,9 +35,9 @@ public class StateView extends DesignerElementView implements Observer{
         this.designerController = designerController;
         this.designerController.subscribe(this);
         this.state = state;
-        this.state.subscribe(this);
         this.initView();
         this.setupEvents();
+        this.state.subscribe(this);//this should be done at the end because the handler depends on the views being setup
     }
 
     private void initView(){

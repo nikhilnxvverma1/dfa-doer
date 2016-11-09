@@ -4,14 +4,16 @@ import com.madebynikhil.editor.view.DesignerElementView;
 import com.madebynikhil.editor.view.StateView;
 import com.madebynikhil.editor.view.TransitionView;
 import com.madebynikhil.model.State;
+import com.madebynikhil.model.StateMachine;
+import com.madebynikhil.model.Transition;
 import com.madebynikhil.observer.Observable;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.beans.Statement;
+import java.util.*;
 
 /**
  * Responsible for all GUI based designing of the state diagram.
@@ -99,21 +101,25 @@ public class DesignerController extends Observable{
 
                 //new starting state
                 this.workspace.getStateMachine().setStartingState(startArrowView.getFinalStateView().getState());
-                double length=lengthInCurrentZoom(TransitionView.START_ARROW);
-                double radius=lengthInCurrentZoom(StateView.STATE_RADIUS);
-                Point2D endingPosition = startArrowView.getEndingPosition();
-                Point2D startingPosition=new Point2D(
-                        endingPosition.getX()-length,
-                        startArrowView.getFinalStateView().getLayoutY()
-                        );
-                Point2D newEndingPosition=new Point2D(
-                        startArrowView.getFinalStateView().getLayoutX()-radius,
-                        startArrowView.getFinalStateView().getLayoutY()
-                );
-                startArrowView.setEndpoints(startingPosition,newEndingPosition);
+                setStartArrowPositionAndLength();
             }
         }
         currentlyEditingStartArrow=false;
+    }
+
+    private void setStartArrowPositionAndLength() {
+        double length=lengthInCurrentZoom(TransitionView.START_ARROW);
+        double radius=lengthInCurrentZoom(StateView.STATE_RADIUS);
+        Point2D endingPosition = startArrowView.getEndingPosition();
+        Point2D startingPosition=new Point2D(
+                endingPosition.getX()-length,
+                startArrowView.getFinalStateView().getLayoutY()
+                );
+        Point2D newEndingPosition=new Point2D(
+                startArrowView.getFinalStateView().getLayoutX()-radius,
+                startArrowView.getFinalStateView().getLayoutY()
+        );
+        startArrowView.setEndpoints(startingPosition,newEndingPosition);
     }
 
     public Point2D toModelSpace(Point2D point){
@@ -204,5 +210,43 @@ public class DesignerController extends Observable{
             elementView.setColor(DEFAULT_COLOR);
         }
         selectedElements.clear();
+    }
+
+    public void initView() {
+        StateMachine stateMachine=workspace.getStateMachine();
+
+        //build a map of the state views
+        Map<String,StateView> stateViewMap=new HashMap<>();
+
+        //for each state in the state machine make a corresponding view
+        for(State state : stateMachine.getStateList()){
+            StateView stateView=new StateView(this,state);
+            stateViewMap.put(state.getName(),stateView);
+            stateViewList.add(stateView);
+            designer.getChildren().add(stateView);
+        }
+
+        //create transitions fromt the above generated state view map
+        for(State state: stateMachine.getStateList()){
+
+            //for each outgoing transition of this state, create a transition view
+            Set<Map.Entry<String, Transition>> entries = state.getOutgoingTransitionMap().entrySet();
+            for(Map.Entry<String, Transition> entry : entries){
+                String outgoingStateName = entry.getKey();
+
+                TransitionView transitionView=new TransitionView(this,
+                        stateViewMap.get(state.getName()),
+                        stateViewMap.get(outgoingStateName));
+                designer.getChildren().add(transitionView);
+            }
+        }
+
+        //create starting transition if it exists
+        if(stateMachine.getStartingState()!=null){
+            startArrowView=new TransitionView(this);
+            startArrowView.setFinalStateView(stateViewMap.get(stateMachine.getStartingState().getName()));
+            setStartArrowPositionAndLength();
+            designer.getChildren().add(startArrowView);
+        }
     }
 }
