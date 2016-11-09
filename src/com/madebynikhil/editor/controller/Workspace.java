@@ -6,6 +6,7 @@ import com.google.gson.stream.JsonReader;
 import com.madebynikhil.model.State;
 import com.madebynikhil.model.StateMachine;
 import com.madebynikhil.model.Transition;
+import com.madebynikhil.util.TrackPerformance;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -96,6 +97,7 @@ public class Workspace {
         this.saveAs(this.file);
     }
 
+    @TrackPerformance
     public void saveAs(File file){
         Gson gson=new GsonBuilder().setPrettyPrinting().create();
         String json=gson.toJson(stateMachine);
