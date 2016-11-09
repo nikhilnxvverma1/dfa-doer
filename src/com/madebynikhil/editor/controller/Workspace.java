@@ -1,11 +1,8 @@
-package com.madebynikhil.editor;
+package com.madebynikhil.editor.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
-import com.madebynikhil.editor.command.Command;
-import com.madebynikhil.editor.view.StateView;
-import com.madebynikhil.editor.view.TransitionView;
 import com.madebynikhil.model.State;
 import com.madebynikhil.model.StateMachine;
 import com.madebynikhil.model.Transition;
@@ -26,8 +23,6 @@ public class Workspace {
     private MainWindowController mainWindowController;
 
     private StateMachine stateMachine;
-    private Stack<Command> history=new Stack<>();
-    private Stack<Command> future=new Stack<>();
     private String filename;
     private File file;
     private DesignerController designerController;

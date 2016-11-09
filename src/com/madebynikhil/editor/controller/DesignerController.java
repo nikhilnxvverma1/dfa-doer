@@ -1,4 +1,4 @@
-package com.madebynikhil.editor;
+package com.madebynikhil.editor.controller;
 
 import com.madebynikhil.editor.view.DesignerElementView;
 import com.madebynikhil.editor.view.StateView;
@@ -12,7 +12,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-import java.beans.Statement;
 import java.util.*;
 
 /**
@@ -248,5 +247,19 @@ public class DesignerController extends Observable{
             setStartArrowPositionAndLength();
             designer.getChildren().add(startArrowView);
         }
+    }
+
+    public LinkedList<DesignerElementView> getSelectedElements() {
+        return selectedElements;
+    }
+
+    public List<StateView> getOnlySelectedStates(){
+        LinkedList<StateView> selectedStates=new LinkedList<>();
+        for (DesignerElementView selectedElement : selectedElements) {
+            if(selectedElement instanceof StateView){
+                selectedStates.add((StateView)selectedElement);
+            }
+        }
+        return selectedStates;
     }
 }

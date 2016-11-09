@@ -1,4 +1,4 @@
-package com.madebynikhil.editor;
+package com.madebynikhil.editor.controller;
 
 import com.madebynikhil.Main;
 import javafx.application.Platform;
@@ -14,6 +14,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import javax.swing.*;
 import java.io.File;
 
 /**
@@ -234,5 +235,15 @@ public class MainWindowController {
     @FXML
     void quit(ActionEvent event) {
         Platform.exit();
+    }
+
+    @FXML
+    private void undo(ActionEvent event){
+        //this event essentially defines a pointcut for the undo redo aspect
+    }
+
+    @FXML
+    private void redo(ActionEvent event){
+        //this event essentially defines a pointcut for the undo redo aspect
     }
 }

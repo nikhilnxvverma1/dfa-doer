@@ -1,7 +1,7 @@
 package com.madebynikhil.editor.view;
 
-import com.madebynikhil.editor.DesignerController;
-import com.madebynikhil.editor.Workspace;
+import com.madebynikhil.editor.controller.DesignerController;
+import com.madebynikhil.editor.controller.Workspace;
 import com.madebynikhil.model.Transition;
 import com.madebynikhil.observer.Observable;
 import com.madebynikhil.observer.Observer;

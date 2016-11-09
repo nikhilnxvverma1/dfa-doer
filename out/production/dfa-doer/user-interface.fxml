@@ -21,7 +21,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="765.0" prefWidth="916.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.madebynikhil.editor.MainWindowController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="765.0" prefWidth="916.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.madebynikhil.editor.controller.MainWindowController">
    <children>
       <MenuBar useSystemMenuBar="true">
         <menus>
@@ -57,11 +57,11 @@
               <MenuItem mnemonicParsing="false" onAction="#editSymbols" text="Symbols" />
                   <MenuItem mnemonicParsing="false" onAction="#editDescription" text="Description" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Undo">
+                  <MenuItem mnemonicParsing="false" onAction="#undo" text="Undo">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="Z" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Redo">
+                  <MenuItem mnemonicParsing="false" onAction="#redo" text="Redo">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="Z" control="UP" meta="DOWN" shift="DOWN" shortcut="UP" />
                      </accelerator></MenuItem>

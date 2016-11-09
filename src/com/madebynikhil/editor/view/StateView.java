@@ -1,6 +1,8 @@
 package com.madebynikhil.editor.view;
 
-import com.madebynikhil.editor.DesignerController;
+import com.madebynikhil.editor.command.MoveStates;
+import com.madebynikhil.editor.command.ToggleState;
+import com.madebynikhil.editor.controller.DesignerController;
 import com.madebynikhil.model.State;
 import com.madebynikhil.observer.Observable;
 import com.madebynikhil.observer.Observer;
@@ -21,6 +23,11 @@ public class StateView extends DesignerElementView implements Observer{
 
     public static final double STATE_RADIUS=25;
     private static final double STATE_INNER_RADIUS=20;
+    private static double pressedX;
+    private static double pressedY;
+    private static double lastModelDx;
+    private static double lastModelDy;
+
     private DesignerController designerController;
     private State state;
 
@@ -93,13 +100,17 @@ public class StateView extends DesignerElementView implements Observer{
 
     private void stateClicked(MouseEvent mouseEvent){
         if(mouseEvent.getClickCount()==2){
-            this.state.setFinalState(!this.state.isFinalState());
+            new ToggleState(this).commit(true);
         }
         designerController.selectElement(this,!mouseEvent.isShiftDown());
         mouseEvent.consume();
     }
 
     private void statePressed(MouseEvent event){
+        pressedX=getLayoutX();
+        pressedY=getLayoutY();
+        lastModelDx=0;
+        lastModelDy=0;
         if(event.isShiftDown()){
             currentlyEditedTransition=new TransitionView(designerController,this);
             this.exitedThisStateAtLeastOnceWhileEditing =false;
@@ -137,11 +148,36 @@ public class StateView extends DesignerElementView implements Observer{
             }
 
         }else{
-            Point2D modelPosition=designerController.toModelSpace(positionInsideDesigner);
-            state.setPosition(modelPosition.getX(),modelPosition.getY());
+            changePositionAndShiftOtherSelectedStates(positionInsideDesigner);
         }
         event.consume();
     }
+
+    private void changePositionAndShiftOtherSelectedStates(Point2D positionInsideDesigner) {
+
+        //first change the position of the this state so we have the latest layout x,y
+        Point2D modelPosition=designerController.toModelSpace(positionInsideDesigner);
+        state.setPosition(modelPosition.getX(),modelPosition.getY());
+
+        //after setting the position of this model, compute the dx and dy
+        double modelDx=designerController.lengthInModalSpace(getLayoutX()-pressedX);
+        double modelDy=designerController.lengthInModalSpace(getLayoutY()-pressedY);
+
+        //also do it for all the existing selected states
+        for (DesignerElementView elementView : designerController.getSelectedElements()) {
+            if(elementView instanceof StateView && elementView!=this){
+
+                //ddd the dx and dy and the observers will respond accordingly
+                StateView stateView=(StateView)elementView;
+                double x = stateView.getState().getX();
+                double y = stateView.getState().getY();
+                stateView.getState().setPosition(x+(modelDx-lastModelDx),y+(modelDy-lastModelDy));
+            }
+        }
+        lastModelDx=modelDx;
+        lastModelDy=modelDy;
+    }
+
 
     private void stateReleased(MouseEvent event){
         if(currentlyEditedTransition!=null){
@@ -163,6 +199,14 @@ public class StateView extends DesignerElementView implements Observer{
                         currentlyEditedTransition.getTransition());
             }
             currentlyEditedTransition=null;
+        }else{
+
+            if (!(getLayoutX()-pressedX==0 && getLayoutY()-pressedY==0)) {
+                new MoveStates(
+                        designerController.getOnlySelectedStates(),
+                        getLayoutX()-pressedX,
+                        getLayoutY()-pressedY).commit(false);
+            }
         }
     }
 
@@ -189,5 +233,9 @@ public class StateView extends DesignerElementView implements Observer{
         this.innerCircle.setStroke(color);
         this.outerCircle.setStroke(color);
         //intentionally doesn't do it to the label
+    }
+
+    public DesignerController getDesignerController() {
+        return designerController;
     }
 }
