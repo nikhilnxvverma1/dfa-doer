@@ -189,15 +189,16 @@ public class StateView extends DesignerElementView implements Observer{
                 System.out.println("Dismissing adding a new transition");
             }else{
                 System.out.println("adding new transition to transition list");
-                //put it in this views' map
-                this.transitionViewMap.put(
-                        currentlyEditedTransition.getFinalStateView().getState().getName(),
-                        currentlyEditedTransition);
 
                 //also put it in the map of the model
-                state.getOutgoingTransitionMap().put(
-                        currentlyEditedTransition.getFinalStateView().getState().getName(),
-                        currentlyEditedTransition.getTransition());
+                for (String s : currentlyEditedTransition.getSymbolList()) {
+                    state.getOutgoingTransitionMap().put(
+                            s,currentlyEditedTransition.getFinalStateView().getState().getName());
+
+                    //put it in this views' map
+                    this.transitionViewMap.put(s,currentlyEditedTransition);
+                }
+
 
                 new CreateTransition(currentlyEditedTransition).commit(false);
             }

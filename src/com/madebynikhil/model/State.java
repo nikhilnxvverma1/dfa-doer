@@ -17,7 +17,7 @@ public class State extends Observable{
     private double y;
     private String name;
     private boolean finalState;
-    private Map<String,Transition> outgoingTransitionMap=new HashMap<>();
+    private Map<String,String> outgoingTransitionMap=new HashMap<>();
 
     public State(double x, double y) {
         this.x = x;
@@ -61,11 +61,40 @@ public class State extends Observable{
         this.finalState = finalState;
     }
 
-    public Map<String, Transition> getOutgoingTransitionMap() {
+    public Map<String, String> getOutgoingTransitionMap() {
         return outgoingTransitionMap;
     }
 
-    public void setOutgoingTransitionMap(Map<String, Transition> outgoingTransitionMap) {
+    public void setOutgoingTransitionMap(Map<String, String> outgoingTransitionMap) {
         this.outgoingTransitionMap = outgoingTransitionMap;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        State state = (State) o;
+
+        if (Double.compare(state.x, x) != 0) return false;
+        if (Double.compare(state.y, y) != 0) return false;
+        if (finalState != state.finalState) return false;
+        if (!name.equals(state.name)) return false;
+        return outgoingTransitionMap != null ? outgoingTransitionMap.equals(state.outgoingTransitionMap) : state.outgoingTransitionMap == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        temp = Double.doubleToLongBits(x);
+        result = (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(y);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + name.hashCode();
+        result = 31 * result + (finalState ? 1 : 0);
+        result = 31 * result + (outgoingTransitionMap != null ? outgoingTransitionMap.hashCode() : 0);
+        return result;
     }
 }

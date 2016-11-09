@@ -23,17 +23,18 @@ public class CreateTransition extends Command{
         designerController.getDesigner().getChildren().add(transitionView);
         transitionView.recomputeEndpointsBasedOnStatePositions();
 
-
-
         //configure the model with the states
         StateView initialStateView = transitionView.getInitialStateView();
         StateView finalStateView = transitionView.getFinalStateView();
-        initialStateView.getState().getOutgoingTransitionMap().put(
-                finalStateView.getState().getName(),
-                transitionView.getTransition());
 
-        //configure the view to contain this transition view in its map
-        initialStateView.getTransitionViewMap().put(finalStateView.getState().getName(),transitionView);
+        //also put it in the map of the model
+        for (String s : transitionView.getSymbolList()) {
+            initialStateView.getState().getOutgoingTransitionMap().put(
+                    s,transitionView.getFinalStateView().getState().getName());
+
+            //put it in this views' map
+            initialStateView.getTransitionViewMap().put(s,transitionView);
+        }
     }
 
     @Override
@@ -45,11 +46,15 @@ public class CreateTransition extends Command{
         //configure the model to remove the tranistion between the states
         StateView initialStateView = transitionView.getInitialStateView();
         StateView finalStateView = transitionView.getFinalStateView();
-        initialStateView.getState().getOutgoingTransitionMap()
-                .remove(finalStateView.getState().getName());
+
 
         //remove this transition view from the initial state's map too
-        initialStateView.getTransitionViewMap().remove(finalStateView.getState().getName());
+        for (String s : transitionView.getSymbolList()) {
+            initialStateView.getState().getOutgoingTransitionMap().remove(s);
+
+            //remove it from the initial views' map
+            initialStateView.getTransitionViewMap().remove(s);
+        }
     }
 
     @Override

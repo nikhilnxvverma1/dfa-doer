@@ -225,17 +225,33 @@ public class DesignerController extends Observable{
             designer.getChildren().add(stateView);
         }
 
-        //create transitions fromt the above generated state view map
+        //create transitions from the above generated state view map
         for(State state: stateMachine.getStateList()){
 
-            //for each outgoing transition of this state, create a transition view
-            Set<Map.Entry<String, Transition>> entries = state.getOutgoingTransitionMap().entrySet();
-            for(Map.Entry<String, Transition> entry : entries){
-                String outgoingStateName = entry.getKey();
+            //create a reverse map i.e. where keys are states and values are symbols
+            Set<Map.Entry<String, String>> symbolToState = state.getOutgoingTransitionMap().entrySet();
+            Map <String, List<String>> stateToSymbol = new HashMap<String,List<String>>();
+            for(Map.Entry<String, String> entry : symbolToState){
+                String outgoingSymbol= entry.getKey();
+                String outgoingStateName = entry.getValue();
+
+                List<String> correspondingSymbolList=stateToSymbol.get(outgoingStateName);
+                if(correspondingSymbolList==null){
+                    correspondingSymbolList=new LinkedList<>();
+                    stateToSymbol.put(outgoingStateName,correspondingSymbolList);
+                }
+                correspondingSymbolList.add(outgoingSymbol);
+            }
+
+            //for each state that this state outgoes to, make a transition view
+            for (Map.Entry<String, List<String>> stateFromSymbols : stateToSymbol.entrySet()) {
+                StateView finalStateView=stateViewMap.get(stateFromSymbols.getKey());
+                List<String> symbolList = stateFromSymbols.getValue();
 
                 TransitionView transitionView=new TransitionView(this,
                         stateViewMap.get(state.getName()),
-                        stateViewMap.get(outgoingStateName));
+                        finalStateView);
+                transitionView.setSymbolList(symbolList);
                 designer.getChildren().add(transitionView);
             }
         }

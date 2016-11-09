@@ -17,6 +17,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -34,7 +35,7 @@ public class TransitionView extends DesignerElementView implements Observer{
     private DesignerController designerController;
     private StateView initialStateView;
     private StateView finalStateView;
-    private Transition transition;
+    private List<String> symbolList=new LinkedList<>();
 
     private Line line;
     private Polygon arrowHead;
@@ -53,7 +54,6 @@ public class TransitionView extends DesignerElementView implements Observer{
         this.designerController = designerController;
         this.initialStateView = initialStateView;
         this.initialStateView.getState().subscribe(this);
-        this.transition=createBlankTransition(initialStateView);
         this.initView();
         this.setupEvents();
         setStartingPosition(new Point2D(initialStateView.getLayoutX(),initialStateView.getLayoutY()));
@@ -65,15 +65,9 @@ public class TransitionView extends DesignerElementView implements Observer{
         this.finalStateView = finalStateView;
         this.initialStateView.getState().subscribe(this);
         this.finalStateView.getState().subscribe(this);
-        this.transition=initialStateView.getState().getOutgoingTransitionMap().get(finalStateView.getState().getName());
         this.initView();
         this.setupEvents();
         recomputeEndpointsBasedOnStatePositions();
-    }
-
-    private Transition createBlankTransition(StateView initialState){
-        Transition transition=new Transition(initialState.getState(),null);
-        return transition;
     }
 
     private void initView() {
@@ -102,11 +96,11 @@ public class TransitionView extends DesignerElementView implements Observer{
     }
 
     private String getLabelBasedOnSymbolList(){
-        if(transition==null){//case for start arrow
+        if(initialStateView==null){//case for start arrow
             return null;
         }else{
-            if(transition.getSymbolList().size()>0){
-                return Workspace.getSymbolsAsCSV(transition.getSymbolList());
+            if(symbolList.size()>0){
+                return Workspace.getSymbolsAsCSV(symbolList);
             }else{
                 return "?";
             }
@@ -148,16 +142,20 @@ public class TransitionView extends DesignerElementView implements Observer{
     }
 
     private void commitEditingTransitions(ActionEvent event) {
-        String text=textField.getText();
-        String [] symbols=text.split(",");
-        System.out.println("Revising transitions");//TODO validate first
-        List<String> symbolList = Arrays.asList(symbols);
-        this.transition.setSymbolList(symbolList);
+
+        //remove the focus from the textfield
         designerController.getDesigner().requestFocus();
         this.textField.setStyle("" +
                 "-fx-background-color: -fx-control-inner-background;" +
                 "    -fx-background-insets: 0;" +
                 "    -fx-padding: 1 3 1 3;");
+
+        //make the new symbol list and set it
+        String text=textField.getText();
+        String [] symbols=text.split(",");
+        System.out.println("Revising transitions");//TODO validate first
+        setSymbolList(Arrays.asList(symbols));
+
     }
 
     private void setArrowHeadPoints(){
@@ -245,11 +243,6 @@ public class TransitionView extends DesignerElementView implements Observer{
         this.finalStateView=finalStateView;
         if (finalStateView!=null) {
             finalStateView.getState().subscribe(this);
-            if (transition!=null) {
-                transition.setTo(finalStateView.getState());
-            }
-        }else if(transition!=null){
-            transition.setTo(null);
         }
 
         recomputeEndpointsBasedOnStatePositions();
@@ -346,13 +339,32 @@ public class TransitionView extends DesignerElementView implements Observer{
         this.arrowHead.setFill(color);
     }
 
-    public Transition getTransition() {
-        return transition;
-    }
-
     public DesignerController getDesignerController() {
         return designerController;
     }
 
+    public List<String> getSymbolList() {
+        return symbolList;
+    }
 
+    public void setSymbolList(List<String> symbolList) {
+
+        //remove the old outgoing transitions from the model
+        for (String oldSymbol : this.symbolList) {
+            initialStateView.getState().getOutgoingTransitionMap().remove(oldSymbol);
+            initialStateView.getTransitionViewMap().remove(oldSymbol);
+        }
+
+        //set the new symbol list
+        this.symbolList = symbolList;
+
+        //revise the textfield text
+        textField.setText(getLabelBasedOnSymbolList());
+
+        //revise the model
+        for (String newSymbol : this.symbolList) {
+            initialStateView.getState().getOutgoingTransitionMap().put(newSymbol,finalStateView.getState().getName());
+            initialStateView.getTransitionViewMap().put(newSymbol,this);
+        }
+    }
 }

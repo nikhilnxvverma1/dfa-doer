@@ -137,22 +137,6 @@ public class Workspace {
             state.setObserverList(new LinkedList<>());
         }
 
-        //set transient to and from states in transitions
-        for(State state: stateMachine.getStateList()){
-            Set<Map.Entry<String, Transition>> entries = state.getOutgoingTransitionMap().entrySet();
-            for(Map.Entry<String, Transition> entry : entries){
-                String outgoingStateName = entry.getKey();
-                Transition outgoingTransition=entry.getValue();
-
-                //if there are not symbols then make sure to set a blank list in the data structure
-                if (outgoingTransition.getSymbolList()==null) {
-                    outgoingTransition.setSymbolList(new LinkedList<>());
-                }
-                outgoingTransition.setFrom(state);
-                outgoingTransition.setTo(stateMap.get(outgoingStateName));
-            }
-        }
-
         //set the starting state to point to a single object instead of a duplicate
         if (stateMachine.getStartingState()!=null) {
             State startingState=stateMap.get(stateMachine.getStartingState().getName());
