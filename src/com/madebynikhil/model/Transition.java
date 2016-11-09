@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * For a given set of input, transition tells which state to go to next.
+ * @deprecated use string based key value map in states
  * Created by NikhilVerma on 01/11/16.
  */
 public class Transition {

@@ -1,5 +1,6 @@
 package com.madebynikhil.editor.view;
 
+import com.madebynikhil.editor.command.CreateTransition;
 import com.madebynikhil.editor.command.MoveStates;
 import com.madebynikhil.editor.command.ToggleState;
 import com.madebynikhil.editor.controller.DesignerController;
@@ -197,6 +198,8 @@ public class StateView extends DesignerElementView implements Observer{
                 state.getOutgoingTransitionMap().put(
                         currentlyEditedTransition.getFinalStateView().getState().getName(),
                         currentlyEditedTransition.getTransition());
+
+                new CreateTransition(currentlyEditedTransition).commit(false);
             }
             currentlyEditedTransition=null;
         }else{
@@ -237,5 +240,9 @@ public class StateView extends DesignerElementView implements Observer{
 
     public DesignerController getDesignerController() {
         return designerController;
+    }
+
+    public Map<String, TransitionView> getTransitionViewMap() {
+        return transitionViewMap;
     }
 }

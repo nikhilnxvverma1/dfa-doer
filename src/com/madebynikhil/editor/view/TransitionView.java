@@ -349,4 +349,10 @@ public class TransitionView extends DesignerElementView implements Observer{
     public Transition getTransition() {
         return transition;
     }
+
+    public DesignerController getDesignerController() {
+        return designerController;
+    }
+
+
 }
