@@ -2,20 +2,22 @@ package com.madebynikhil.model;
 
 import com.madebynikhil.observer.Observable;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
- * State contains information about label, position and weather the state is final or not.
+ * State contains information about name, position and weather the state is final or not.
  * Created by NikhilVerma on 01/11/16.
  */
 public class State extends Observable{
 
     private double x;
     private double y;
-    private String label;
+    private String name;
     private boolean finalState;
-    private List<Transition> outgoingTransitionList=new LinkedList<>();
+    private Map<String,Transition> outgoingTransitionMap=new HashMap<>();
 
     public State(double x, double y) {
         this.x = x;
@@ -44,12 +46,12 @@ public class State extends Observable{
         notifyAllObservers();
     }
 
-    public String getLabel() {
-        return label;
+    public String getName() {
+        return name;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isFinalState() {
@@ -61,12 +63,11 @@ public class State extends Observable{
         this.notifyAllObservers();
     }
 
-    public List<Transition> getOutgoingTransitionList() {
-        return outgoingTransitionList;
+    public Map<String, Transition> getOutgoingTransitionMap() {
+        return outgoingTransitionMap;
     }
 
-    public void setOutgoingTransitionList(List<Transition> outgoingTransitionList) {
-        this.outgoingTransitionList = outgoingTransitionList;
+    public void setOutgoingTransitionMap(Map<String, Transition> outgoingTransitionMap) {
+        this.outgoingTransitionMap = outgoingTransitionMap;
     }
-
 }

@@ -1,14 +1,18 @@
 package com.madebynikhil.editor;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
 import com.madebynikhil.editor.command.Command;
+import com.madebynikhil.model.State;
 import com.madebynikhil.model.StateMachine;
+import com.madebynikhil.model.Transition;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Stack;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.PrintWriter;
+import java.util.*;
 
 /**
  * Top level delegate class that manages most of the editor operations and holds the
@@ -91,12 +95,60 @@ public class Workspace {
         this.stateMachine.setDescription(text);
     }
 
+    public void save(){
+        this.saveAs(this.file);
+    }
+
     public void saveAs(File file){
-        Gson gson=new Gson();
+        Gson gson=new GsonBuilder().setPrettyPrinting().create();
         String json=gson.toJson(stateMachine);
         System.out.println("Json is :");
         System.out.println(json);
+        try(  PrintWriter out = new PrintWriter( file )  ){
+            out.println( json);
+        } catch (FileNotFoundException e) {
+            //TODO handle by showing GUI alert box
+            e.printStackTrace();
+        }
         this.file=file;
+    }
+
+    public void loadFromJsonFile(File file){
+        Gson gson = new Gson();
+        JsonReader reader = null;
+        try {
+            reader = new JsonReader(new FileReader(file));
+            stateMachine = gson.fromJson(reader, StateMachine.class);
+            setTransientModelAttributesAndRemoveDuplicates();
+            this.file=file;
+
+        } catch (FileNotFoundException e) {
+            //TODO alert the user
+            e.printStackTrace();
+        }
+    }
+
+    private void setTransientModelAttributesAndRemoveDuplicates(){
+        //build a map of the states
+        Map <String,State>stateMap=new HashMap<>();
+        for(State state: stateMachine.getStateList()){
+            stateMap.put(state.getName(),state);
+        }
+
+        //set transient to and from states in transitions
+        for(State state: stateMachine.getStateList()){
+            Set<Map.Entry<String, Transition>> entries = state.getOutgoingTransitionMap().entrySet();
+            for(Map.Entry<String, Transition> entry : entries){
+                String outgoingStateName = entry.getKey();
+                Transition outgoingTransition=entry.getValue();
+                outgoingTransition.setFrom(state);
+                outgoingTransition.setTo(stateMap.get(outgoingStateName));
+            }
+        }
+
+        //set the starting state to point to a single object instead of a duplicate
+        State startingState=stateMap.get(stateMachine.getStartingState().getName());
+        stateMachine.setStartingState(startingState);
     }
 
     public String getFilename() {
@@ -107,11 +159,10 @@ public class Workspace {
         return file;
     }
     public boolean isEmptyDocument(){
-        //TODO
-        return false;
+        return stateMachine.getStateList().isEmpty();
     }
 
-    public void initializeSystem(File file) {
+    public void initView() {
         //TODO
     }
 }

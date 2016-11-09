@@ -41,7 +41,7 @@ public class DesignerController extends Observable{
         if(mouseEvent.getClickCount()==2){
             System.out.println("mouse double clicked");
             State newState=new State(mouseEvent.getX(),mouseEvent.getY());
-            newState.setLabel("S"+(stateViewList.size()+1));
+            newState.setName("S"+(stateViewList.size()+1));
             StateView stateView=new StateView(this,newState);
             this.designer.getChildren().add(stateView);
             this.stateViewList.add(stateView);

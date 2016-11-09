@@ -1,5 +1,6 @@
 package com.madebynikhil.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ public class Transition {
 
     private transient State from;
     private transient State to;
-    private List<String> symbolList;
+    private List<String> symbolList=new LinkedList<>();
 
     public Transition(State from, State to) {
         this.from = from;

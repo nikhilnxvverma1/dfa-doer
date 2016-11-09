@@ -63,7 +63,6 @@ public class TransitionView extends DesignerElementView implements Observer{
 
     private Transition createBlankTransition(StateView initialState){
         Transition transition=new Transition(initialState.getState(),null);
-        initialState.getState().getOutgoingTransitionList().add(transition);
         return transition;
     }
 
@@ -322,5 +321,9 @@ public class TransitionView extends DesignerElementView implements Observer{
     public void setColor(Color color) {
         this.line.setStroke(color);
         this.arrowHead.setFill(color);
+    }
+
+    public Transition getTransition() {
+        return transition;
     }
 }

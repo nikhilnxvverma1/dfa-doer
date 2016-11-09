@@ -178,7 +178,8 @@ public class MainWindowController {
 
         if(workspace.isEmptyDocument()){
             //open in the same instance of the application
-            workspace.initializeSystem(file);
+            workspace.loadFromJsonFile(file);
+            workspace.initView();
         }else if(file!=null){
             //open new instance of the application running in a parallel thread
             Platform.runLater(new Runnable() {
@@ -199,6 +200,7 @@ public class MainWindowController {
             saveAsDocument(event);
         }else{
             System.out.println("Saving the document in the current file");
+            workspace.save();
         }
     }
 

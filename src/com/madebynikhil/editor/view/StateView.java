@@ -2,21 +2,15 @@ package com.madebynikhil.editor.view;
 
 import com.madebynikhil.editor.DesignerController;
 import com.madebynikhil.model.State;
-import com.madebynikhil.model.Transition;
 import com.madebynikhil.observer.Observable;
 import com.madebynikhil.observer.Observer;
 import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.text.TextAlignment;
-import org.omg.CORBA.SystemException;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -35,7 +29,7 @@ public class StateView extends DesignerElementView implements Observer{
     private Label label;
     private TransitionView currentlyEditedTransition;
     private boolean exitedThisStateAtLeastOnceWhileEditing;
-    private List<TransitionView> transitionViewList=new LinkedList<>();
+    private Map<String,TransitionView> transitionViewMap=new HashMap<>();
 
     public StateView(DesignerController designerController, State state) {
         this.designerController = designerController;
@@ -52,7 +46,7 @@ public class StateView extends DesignerElementView implements Observer{
         this.innerCircle=new Circle(designerController.lengthInCurrentZoom(STATE_INNER_RADIUS),Color.WHITE);
         this.innerCircle.setVisible(state.isFinalState());
         this.innerCircle.setStroke(Color.BLACK);
-        this.label=new Label(this.state.getLabel());
+        this.label=new Label(this.state.getName());
         this.label.setTranslateX(-7);
         this.label.setTranslateY(-7);
         this.getChildren().add(this.outerCircle);
@@ -158,14 +152,23 @@ public class StateView extends DesignerElementView implements Observer{
                 System.out.println("Dismissing adding a new transition");
             }else{
                 System.out.println("adding new transition to transition list");
-                this.transitionViewList.add(currentlyEditedTransition);
+                //put it in this views' map
+                this.transitionViewMap.put(
+                        currentlyEditedTransition.getFinalStateView().getState().getName(),
+                        currentlyEditedTransition);
+
+                //also put it in the map of the model
+                state.getOutgoingTransitionMap().put(
+                        currentlyEditedTransition.getFinalStateView().getState().getName(),
+                        currentlyEditedTransition.getTransition());
             }
             currentlyEditedTransition=null;
         }
     }
 
     private TransitionView containsTransition(StateView finalStateView){
-        for (TransitionView transitionView : transitionViewList){
+        Collection<TransitionView> allOutgoingTransitions = transitionViewMap.values();
+        for (TransitionView transitionView : allOutgoingTransitions){
             if(transitionView.getInitialStateView() == this){
                 if(transitionView.getFinalStateView() == finalStateView) {
                     return transitionView;
