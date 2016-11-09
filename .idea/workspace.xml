@@ -2,25 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0786822e-8650-409d-b970-40cb447d4438" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/madebynikhil/editor/command/MoveStates.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/madebynikhil/editor/command/ToggleState.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/madebynikhil/editor/command/UndoRedo.aj" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/dfa-doer/com/madebynikhil/editor/DesignerController.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/dfa-doer/com/madebynikhil/editor/MainWindowController$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/dfa-doer/com/madebynikhil/editor/MainWindowController.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/dfa-doer/com/madebynikhil/editor/Workspace.class" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/madebynikhil/editor/DesignerController.java" afterPath="$PROJECT_DIR$/src/com/madebynikhil/editor/controller/DesignerController.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/madebynikhil/editor/MainWindowController.java" afterPath="$PROJECT_DIR$/src/com/madebynikhil/editor/controller/MainWindowController.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/madebynikhil/editor/Workspace.java" afterPath="$PROJECT_DIR$/src/com/madebynikhil/editor/controller/Workspace.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/dfa-doer/com/madebynikhil/editor/command/Command.class" afterPath="$PROJECT_DIR$/out/production/dfa-doer/com/madebynikhil/editor/command/Command.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/madebynikhil/observer/NotifyOnChange.aj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/dfa-doer/com/madebynikhil/editor/command/UndoRedo.class" afterPath="$PROJECT_DIR$/out/production/dfa-doer/com/madebynikhil/editor/command/UndoRedo.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/dfa-doer/com/madebynikhil/editor/view/StateView.class" afterPath="$PROJECT_DIR$/out/production/dfa-doer/com/madebynikhil/editor/view/StateView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/dfa-doer/com/madebynikhil/editor/view/TransitionView.class" afterPath="$PROJECT_DIR$/out/production/dfa-doer/com/madebynikhil/editor/view/TransitionView.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/dfa-doer/com/madebynikhil/model/State.class" afterPath="$PROJECT_DIR$/out/production/dfa-doer/com/madebynikhil/model/State.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/dfa-doer/com/madebynikhil/observer/Observable.class" afterPath="$PROJECT_DIR$/out/production/dfa-doer/com/madebynikhil/observer/Observable.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/dfa-doer/user-interface.fxml" afterPath="$PROJECT_DIR$/out/production/dfa-doer/user-interface.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/madebynikhil/editor/command/Command.java" afterPath="$PROJECT_DIR$/src/com/madebynikhil/editor/command/Command.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/madebynikhil/editor/view/StateView.java" afterPath="$PROJECT_DIR$/src/com/madebynikhil/editor/view/StateView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/madebynikhil/editor/view/TransitionView.java" afterPath="$PROJECT_DIR$/src/com/madebynikhil/editor/view/TransitionView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/user-interface.fxml" afterPath="$PROJECT_DIR$/src/user-interface.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/madebynikhil/model/State.java" afterPath="$PROJECT_DIR$/src/com/madebynikhil/model/State.java" />
     </list>
     <ignored path="dot-plot.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -42,16 +30,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Workspace.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/editor/controller/Workspace.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="41" selection-start-line="4" selection-start-column="41" selection-end-line="4" selection-end-column="41" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="StateView.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/editor/view/StateView.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -66,14 +44,58 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UndoRedo.aj" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UndoRedo.aj" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/editor/command/UndoRedo.aj">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="22" column="36" selection-start-line="22" selection-start-column="36" selection-end-line="22" selection-end-column="36" />
+            <state relative-caret-position="158">
+              <caret line="45" column="46" selection-start-line="45" selection-start-column="46" selection-end-line="45" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NotifyOnChange.aj" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/observer/NotifyOnChange.aj">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StateMachine.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/model/StateMachine.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="State.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/model/State.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="540">
+              <caret line="51" column="38" selection-start-line="51" selection-start-column="38" selection-end-line="51" selection-end-column="38" />
+              <folding>
+                <element signature="e#1061#1062#0" expanded="true" />
+                <element signature="e#1184#1185#0" expanded="true" />
+                <element signature="e#1228#1229#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Observable.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/observer/Observable.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -113,7 +135,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/editor/controller/DesignerController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="162">
-              <caret line="139" column="18" selection-start-line="139" selection-start-column="18" selection-end-line="139" selection-end-column="18" />
+              <caret line="108" column="17" selection-start-line="108" selection-start-column="17" selection-end-line="108" selection-end-column="17" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#5031#5032#0" expanded="true" />
@@ -145,8 +167,8 @@
       <list>
         <option value="Interface" />
         <option value="CSS File" />
-        <option value="Aspect" />
         <option value="Class" />
+        <option value="Aspect" />
       </list>
     </option>
   </component>
@@ -178,7 +200,6 @@
         <option value="$PROJECT_DIR$/src/com/madebynikhil/Main.java" />
         <option value="$PROJECT_DIR$/src/com/madebynikhil/editor/view/StateElementView.java" />
         <option value="$PROJECT_DIR$/src/com/madebynikhil/editor/view/DesignerElementView.java" />
-        <option value="$PROJECT_DIR$/src/com/madebynikhil/model/State.java" />
         <option value="$PROJECT_DIR$/src/com/madebynikhil/model/Transition.java" />
         <option value="$PROJECT_DIR$/src/com/madebynikhil/observer/Observable.java" />
         <option value="$PROJECT_DIR$/src/com/madebynikhil/editor/MainWindowController.java" />
@@ -196,6 +217,9 @@
         <option value="$PROJECT_DIR$/src/com/madebynikhil/editor/controller/DesignerController.java" />
         <option value="$PROJECT_DIR$/src/com/madebynikhil/editor/view/StateView.java" />
         <option value="$PROJECT_DIR$/src/com/madebynikhil/editor/command/UndoRedo.aj" />
+        <option value="$PROJECT_DIR$/src/com/madebynikhil/model/NotifyOnChange.aj" />
+        <option value="$PROJECT_DIR$/src/com/madebynikhil/model/State.java" />
+        <option value="$PROJECT_DIR$/src/com/madebynikhil/observer/NotifyOnChange.aj" />
       </list>
     </option>
   </component>
@@ -216,6 +240,61 @@
     <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="873" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Android</id>
+          </State>
+          <State>
+            <id>Android &gt; Lint &gt; Correctness</id>
+          </State>
+          <State>
+            <id>Android &gt; Lint &gt; Performance</id>
+          </State>
+          <State>
+            <id>CorrectnessLintAndroid</id>
+          </State>
+          <State>
+            <id>GSPGrailsGroovy</id>
+          </State>
+          <State>
+            <id>General</id>
+          </State>
+          <State>
+            <id>GrailsGroovy</id>
+          </State>
+          <State>
+            <id>Groovy</id>
+          </State>
+          <State>
+            <id>Kotlin</id>
+          </State>
+          <State>
+            <id>LintAndroid</id>
+          </State>
+          <State>
+            <id>Maven</id>
+          </State>
+          <State>
+            <id>Plugin DevKit</id>
+          </State>
+          <State>
+            <id>XPath</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Android</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -312,6 +391,50 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="observer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dfa-doer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dfa-doer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="madebynikhil" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="model" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dfa-doer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dfa-doer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="madebynikhil" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="editor" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -383,7 +506,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.smartKeys" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/dependencies/gson-2.8.0.jar!/" />
     <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
@@ -845,12 +968,12 @@
       <workItem from="1478045635552" duration="2663000" />
       <workItem from="1478113535510" duration="6130000" />
       <workItem from="1478441321000" duration="47455000" />
-      <workItem from="1478694661700" duration="10457000" />
+      <workItem from="1478694661700" duration="11805000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="76904000" />
+    <option name="totallyTimeSpent" value="78252000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="873" extended-state="6" />
@@ -870,6 +993,7 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329602" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -880,7 +1004,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329602" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -905,20 +1028,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/editor/controller/DesignerController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#5031#5032#0" expanded="true" />
-            <element signature="e#5060#5061#0" expanded="true" />
-            <element signature="e#8623#8624#0" expanded="true" />
-            <element signature="e#8662#8663#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/editor/view/StateView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -990,11 +1099,11 @@
         <state relative-caret-position="255">
           <caret line="17" column="28" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#791#792#0" expanded="true" />
-            <element signature="e#824#825#0" expanded="true" />
-            <element signature="e#882#883#0" expanded="true" />
-            <element signature="e#926#927#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#791#792#0" expanded="false" />
+            <element signature="e#824#825#0" expanded="false" />
+            <element signature="e#882#883#0" expanded="false" />
+            <element signature="e#926#927#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1012,8 +1121,8 @@
         <state relative-caret-position="345">
           <caret line="28" column="32" selection-start-line="28" selection-start-column="32" selection-end-line="28" selection-end-column="32" />
           <folding>
-            <element signature="e#1358#1359#0" expanded="false" />
-            <element signature="e#1402#1403#0" expanded="false" />
+            <element signature="e#1293#1294#0" expanded="false" />
+            <element signature="e#1337#1338#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1022,6 +1131,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="25" column="5" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1029,6 +1141,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1037,11 +1150,11 @@
         <state relative-caret-position="180">
           <caret line="13" column="37" selection-start-line="13" selection-start-column="37" selection-end-line="13" selection-end-column="37" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#355#356#0" expanded="true" />
-            <element signature="e#403#404#0" expanded="true" />
-            <element signature="e#603#604#0" expanded="true" />
-            <element signature="e#652#653#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#355#356#0" expanded="false" />
+            <element signature="e#403#404#0" expanded="false" />
+            <element signature="e#603#604#0" expanded="false" />
+            <element signature="e#652#653#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1096,11 +1209,11 @@
         <state relative-caret-position="255">
           <caret line="17" column="28" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#791#792#0" expanded="true" />
-            <element signature="e#824#825#0" expanded="true" />
-            <element signature="e#882#883#0" expanded="true" />
-            <element signature="e#926#927#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#791#792#0" expanded="false" />
+            <element signature="e#824#825#0" expanded="false" />
+            <element signature="e#882#883#0" expanded="false" />
+            <element signature="e#926#927#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1118,8 +1231,8 @@
         <state relative-caret-position="345">
           <caret line="28" column="32" selection-start-line="28" selection-start-column="32" selection-end-line="28" selection-end-column="32" />
           <folding>
-            <element signature="e#1358#1359#0" expanded="false" />
-            <element signature="e#1402#1403#0" expanded="false" />
+            <element signature="e#1293#1294#0" expanded="false" />
+            <element signature="e#1337#1338#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1128,6 +1241,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="25" column="5" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1135,6 +1251,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1143,11 +1260,11 @@
         <state relative-caret-position="180">
           <caret line="13" column="37" selection-start-line="13" selection-start-column="37" selection-end-line="13" selection-end-column="37" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#355#356#0" expanded="true" />
-            <element signature="e#403#404#0" expanded="true" />
-            <element signature="e#603#604#0" expanded="true" />
-            <element signature="e#652#653#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#355#356#0" expanded="false" />
+            <element signature="e#403#404#0" expanded="false" />
+            <element signature="e#603#604#0" expanded="false" />
+            <element signature="e#652#653#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1179,6 +1296,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1187,11 +1305,11 @@
         <state relative-caret-position="180">
           <caret line="13" column="37" selection-start-line="13" selection-start-column="37" selection-end-line="13" selection-end-column="37" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#355#356#0" expanded="true" />
-            <element signature="e#403#404#0" expanded="true" />
-            <element signature="e#603#604#0" expanded="true" />
-            <element signature="e#652#653#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#355#356#0" expanded="false" />
+            <element signature="e#403#404#0" expanded="false" />
+            <element signature="e#603#604#0" expanded="false" />
+            <element signature="e#652#653#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1244,20 +1362,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/editor/view/StartArrowView.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/model/StateMachine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#791#792#0" expanded="true" />
-            <element signature="e#824#825#0" expanded="true" />
-            <element signature="e#882#883#0" expanded="true" />
-            <element signature="e#926#927#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/editor/view/DesignerElementView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -1268,21 +1372,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/model/State.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="21" column="38" selection-start-line="21" selection-start-column="38" selection-end-line="21" selection-end-column="38" />
-          <folding>
-            <element signature="e#1358#1359#0" expanded="false" />
-            <element signature="e#1402#1403#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/observer/Observer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1290,19 +1384,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="113">
           <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/observer/Observable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#355#356#0" expanded="true" />
-            <element signature="e#403#404#0" expanded="true" />
-            <element signature="e#603#604#0" expanded="true" />
-            <element signature="e#652#653#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1402,20 +1485,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/editor/controller/DesignerController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="139" column="18" selection-start-line="139" selection-start-column="18" selection-end-line="139" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#5031#5032#0" expanded="true" />
-            <element signature="e#5060#5061#0" expanded="true" />
-            <element signature="e#8623#8624#0" expanded="true" />
-            <element signature="e#8662#8663#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/editor/view/StateView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-232">
@@ -1430,11 +1499,61 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/editor/command/UndoRedo.aj">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="22" column="36" selection-start-line="22" selection-start-column="36" selection-end-line="22" selection-end-column="36" />
+        <state relative-caret-position="158">
+          <caret line="45" column="46" selection-start-line="45" selection-start-column="46" selection-end-line="45" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/model/State.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="51" column="38" selection-start-line="51" selection-start-column="38" selection-end-line="51" selection-end-column="38" />
+          <folding>
+            <element signature="e#1061#1062#0" expanded="true" />
+            <element signature="e#1184#1185#0" expanded="true" />
+            <element signature="e#1228#1229#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/observer/Observable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/editor/controller/DesignerController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="108" column="17" selection-start-line="108" selection-start-column="17" selection-end-line="108" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5031#5032#0" expanded="true" />
+            <element signature="e#5060#5061#0" expanded="true" />
+            <element signature="e#8623#8624#0" expanded="true" />
+            <element signature="e#8662#8663#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/model/StateMachine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/madebynikhil/observer/NotifyOnChange.aj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

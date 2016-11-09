@@ -43,7 +43,6 @@ public class State extends Observable{
     public void setPosition(double x,double y){
         this.x=x;
         this.y=y;
-        notifyAllObservers();
     }
 
     public String getName() {
@@ -60,7 +59,6 @@ public class State extends Observable{
 
     public void setFinalState(boolean finalState) {
         this.finalState = finalState;
-        this.notifyAllObservers();
     }
 
     public Map<String, Transition> getOutgoingTransitionMap() {
