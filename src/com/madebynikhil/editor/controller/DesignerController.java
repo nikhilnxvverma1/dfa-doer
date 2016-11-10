@@ -1,5 +1,6 @@
 package com.madebynikhil.editor.controller;
 
+import com.madebynikhil.editor.command.ChangeStartState;
 import com.madebynikhil.editor.view.DesignerElementView;
 import com.madebynikhil.editor.view.StateView;
 import com.madebynikhil.editor.view.TransitionView;
@@ -30,7 +31,7 @@ public class DesignerController extends Observable{
     private double zoom=INITIAL_ZOOM;
     private List<StateView> stateViewList=new LinkedList<>();
     private TransitionView startArrowView;
-    private boolean currentlyEditingStartArrow=false;
+    private TransitionView currentlyEditedStartArrow;
     private LinkedList<DesignerElementView> selectedElements=new LinkedList<>();
 
     public DesignerController(Workspace workspace, Pane designer) {
@@ -55,18 +56,18 @@ public class DesignerController extends Observable{
 
     public void handleMousePress(MouseEvent event){
         if(event.isShiftDown()){
-            if (startArrowView==null) {
-                startArrowView=new TransitionView(this);
-                designer.getChildren().add(startArrowView);
+            if (currentlyEditedStartArrow==null) {
+                currentlyEditedStartArrow=new TransitionView(this);
+                designer.getChildren().add(currentlyEditedStartArrow);
             }
-            startArrowView.setStartingPosition(new Point2D(event.getX(),event.getY()));
-            currentlyEditingStartArrow=true;
+            currentlyEditedStartArrow.setStartingPosition(new Point2D(event.getX(),event.getY()));
+
         }
     }
 
     public void handleMouseDrag(MouseEvent event){
 
-        if(event.isShiftDown() && startArrowView!=null){
+        if(event.isShiftDown() && currentlyEditedStartArrow!=null){
 
             Point2D position = new Point2D(event.getX(), event.getY());
 
@@ -81,32 +82,28 @@ public class DesignerController extends Observable{
             }
 
             if(pointedState!=null){
-                startArrowView.setFinalStateView(pointedState);
+                currentlyEditedStartArrow.setFinalStateView(pointedState);
             }else{
-                startArrowView.setFinalStateView(null);
-                startArrowView.setEndingPosition(position);
+                currentlyEditedStartArrow.setFinalStateView(null);
+                currentlyEditedStartArrow.setEndingPosition(position);
             }
-
         }
     }
 
     public void handleMouseRelease(MouseEvent event){
-        if(startArrowView!=null){
-            if(startArrowView.getFinalStateView()==null){
+        if(currentlyEditedStartArrow!=null){
+            if(currentlyEditedStartArrow.getFinalStateView()==null){
                 //remove this transition
-                designer.getChildren().remove(startArrowView);
-                startArrowView=null;
+                designer.getChildren().remove(currentlyEditedStartArrow);
+                currentlyEditedStartArrow=null;
             }else{
-
-                //new starting state
-                this.workspace.getStateMachine().setStartingState(startArrowView.getFinalStateView().getState());
-                setStartArrowPositionAndLength();
+                new ChangeStartState(startArrowView,currentlyEditedStartArrow).commit(true);
             }
         }
-        currentlyEditingStartArrow=false;
+        currentlyEditedStartArrow=null;
     }
 
-    private void setStartArrowPositionAndLength() {
+    public void setStartArrowPositionAndLength() {
         double length=lengthInCurrentZoom(TransitionView.START_ARROW);
         double radius=lengthInCurrentZoom(StateView.STATE_RADIUS);
         Point2D endingPosition = startArrowView.getEndingPosition();
@@ -162,8 +159,8 @@ public class DesignerController extends Observable{
         return stateViewList;
     }
 
-    public boolean isCurrentlyEditingStartArrow() {
-        return currentlyEditingStartArrow;
+    public TransitionView getCurrentlyEditedStartArrow() {
+        return currentlyEditedStartArrow;
     }
 
     public TransitionView getStartArrowView() {
@@ -277,5 +274,9 @@ public class DesignerController extends Observable{
             }
         }
         return selectedStates;
+    }
+
+    public void setStartArrowView(TransitionView startArrowView) {
+        this.startArrowView = startArrowView;
     }
 }

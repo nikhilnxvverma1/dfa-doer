@@ -1,5 +1,6 @@
 package com.madebynikhil.editor.view;
 
+import com.madebynikhil.editor.command.ChangeSymbols;
 import com.madebynikhil.editor.controller.DesignerController;
 import com.madebynikhil.editor.controller.Workspace;
 import com.madebynikhil.model.Transition;
@@ -153,8 +154,9 @@ public class TransitionView extends DesignerElementView implements Observer{
         //make the new symbol list and set it
         String text=textField.getText();
         String [] symbols=text.split(",");
-        System.out.println("Revising transitions");//TODO validate first
-        setSymbolList(Arrays.asList(symbols));
+        System.out.println("Revising transitions");
+        //TODO validate first before setting
+        new ChangeSymbols(this,symbolList,Arrays.asList(symbols)).commit(true);
 
     }
 
@@ -264,8 +266,7 @@ public class TransitionView extends DesignerElementView implements Observer{
 
                 setEndpoints(initialCircumferencePoint,finalCircumferencePoint);
 
-            }else if (!(designerController.isCurrentlyEditingStartArrow()&&
-                    this==designerController.getStartArrowView())){
+            }else if (this!=designerController.getCurrentlyEditedStartArrow()){
                 double length=designerController.lengthInCurrentZoom(TransitionView.START_ARROW);
                 double radius=designerController.lengthInCurrentZoom(StateView.STATE_RADIUS);
                 Point2D endingPosition = getEndingPosition();

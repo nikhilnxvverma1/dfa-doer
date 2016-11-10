@@ -10,4 +10,6 @@ import javafx.scene.paint.Color;
  */
 public abstract class DesignerElementView extends Group{
     public abstract void setColor(Color color);
+//    public abstract void removeFromModelAndView();
+//    public abstract void integrateInModelAndView();
 }
