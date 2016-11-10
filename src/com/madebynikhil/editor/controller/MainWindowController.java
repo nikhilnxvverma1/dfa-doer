@@ -90,6 +90,7 @@ public class MainWindowController {
     @FXML
     private void delete(ActionEvent actionEvent){
         System.out.println("Delete pressed");
+        workspace.getDesignerController().deleteSelectedElements();
     }
 
     @FXML

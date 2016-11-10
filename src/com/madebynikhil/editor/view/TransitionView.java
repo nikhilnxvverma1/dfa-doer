@@ -128,6 +128,8 @@ public class TransitionView extends DesignerElementView implements Observer{
         this.line.addEventHandler(MouseEvent.MOUSE_CLICKED,selectThis);
         this.arrowHead.addEventHandler(MouseEvent.MOUSE_CLICKED,selectThis);
 
+        this.line.addEventHandler(MouseEvent.MOUSE_PRESSED,selectThis);
+        this.arrowHead.addEventHandler(MouseEvent.MOUSE_PRESSED,selectThis);
     }
 
     private void editTransitions(MouseEvent event) {
@@ -344,13 +346,22 @@ public class TransitionView extends DesignerElementView implements Observer{
         //remove the view from the designer
         designerController.getDesigner().getChildren().remove(this);
 
-        //remove this transition view from the initial state's map too
-        for (String s : symbolList) {
-            initialStateView.getState().getOutgoingTransitionMap().remove(s);
+        if (initialStateView!=null) {
+            //remove this transition view from the initial state's map too
+            for (String s : symbolList) {
+                initialStateView.getState().getOutgoingTransitionMap().remove(s);
 
-            //remove it from the initial views' map
-            initialStateView.getTransitionViewMap().remove(s);
+                //remove it from the initial views' map
+                initialStateView.getTransitionViewMap().remove(s);
+            }
+
+            TransitionView undecided=initialStateView.getUndecidedTransitionViewMap().
+                    get(finalStateView.getState().getName());
+            if (this==undecided){
+                initialStateView.getUndecidedTransitionViewMap().remove(finalStateView.getState().getName());
+            }
         }
+
     }
 
     @Override
@@ -360,12 +371,18 @@ public class TransitionView extends DesignerElementView implements Observer{
         recomputeEndpointsBasedOnStatePositions();
 
         //also put it in the map of the model
-        for (String s : symbolList) {
-            initialStateView.getState().getOutgoingTransitionMap().put(
-                    s,finalStateView.getState().getName());
+        if (initialStateView!=null) {
+            if(symbolList.size()==0){
+                initialStateView.getUndecidedTransitionViewMap().put(finalStateView.getState().getName(),this);
+            }else{
+                for (String s : symbolList) {
+                    initialStateView.getState().getOutgoingTransitionMap().put(
+                            s,finalStateView.getState().getName());
 
-            //put it in this views' map
-            initialStateView.getTransitionViewMap().put(s,this);
+                    //put it in this views' map
+                    initialStateView.getTransitionViewMap().put(s,this);
+                }
+            }
         }
     }
 
@@ -374,6 +391,9 @@ public class TransitionView extends DesignerElementView implements Observer{
     }
 
     public void setSymbolList(List<String> symbolList) {
+        if(initialStateView==null){
+            return ;//not applicable in this case since its assumed to be the start arrow
+        }
 
         //remove the old outgoing transitions from the model
         for (String oldSymbol : this.symbolList) {
@@ -388,9 +408,14 @@ public class TransitionView extends DesignerElementView implements Observer{
         textField.setText(getLabelBasedOnSymbolList());
 
         //revise the model
-        for (String newSymbol : this.symbolList) {
-            initialStateView.getState().getOutgoingTransitionMap().put(newSymbol,finalStateView.getState().getName());
-            initialStateView.getTransitionViewMap().put(newSymbol,this);
+        if(this.symbolList.size()==0){
+            initialStateView.getUndecidedTransitionViewMap().put(finalStateView.getState().getName(),this);
+        }else{
+            for (String newSymbol : this.symbolList) {
+                initialStateView.getState().getOutgoingTransitionMap().put(newSymbol,finalStateView.getState().getName());
+                initialStateView.getTransitionViewMap().put(newSymbol,this);
+            }
+            initialStateView.getUndecidedTransitionViewMap().remove(finalStateView.getState().getName());
         }
     }
 }

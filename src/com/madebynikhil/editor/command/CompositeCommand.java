@@ -24,7 +24,7 @@ public abstract class CompositeCommand extends Command{
     @Override
     void unExecute() {
         for (Command command : commandList) {
-            command.execute();
+            command.unExecute();
         }
     }
 

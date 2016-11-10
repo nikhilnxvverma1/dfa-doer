@@ -38,6 +38,7 @@ public class StateView extends DesignerElementView implements Observer{
     private TransitionView currentlyEditedTransition;
     private boolean exitedThisStateAtLeastOnceWhileEditing;
     private Map<String,TransitionView> transitionViewMap=new HashMap<>();
+    private Map<String,TransitionView> undecidedTransitionViewMap=new HashMap<>();
 
     public StateView(DesignerController designerController, State state) {
         super(designerController);
@@ -190,7 +191,7 @@ public class StateView extends DesignerElementView implements Observer{
             }else{
                 System.out.println("adding new transition to transition list");
 
-                //also put it in the map of the model
+                //also put it in the map of the model ( almost never the case since it doesn't have any symbols)
                 for (String s : currentlyEditedTransition.getSymbolList()) {
                     state.getOutgoingTransitionMap().put(
                             s,currentlyEditedTransition.getFinalStateView().getState().getName());
@@ -199,6 +200,10 @@ public class StateView extends DesignerElementView implements Observer{
                     this.transitionViewMap.put(s,currentlyEditedTransition);
                 }
 
+                //in most cases the this newly created transition will go in undecided list of transitions
+                undecidedTransitionViewMap.put(
+                        currentlyEditedTransition.getFinalStateView().getState().getName(),
+                        currentlyEditedTransition);
 
                 new CreateDesignElement(currentlyEditedTransition).commit(false);
             }
@@ -268,5 +273,9 @@ public class StateView extends DesignerElementView implements Observer{
 
     public Map<String, TransitionView> getTransitionViewMap() {
         return transitionViewMap;
+    }
+
+    public Map<String, TransitionView> getUndecidedTransitionViewMap() {
+        return undecidedTransitionViewMap;
     }
 }

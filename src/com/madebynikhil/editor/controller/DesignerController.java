@@ -2,6 +2,7 @@ package com.madebynikhil.editor.controller;
 
 import com.madebynikhil.editor.command.ChangeStartState;
 import com.madebynikhil.editor.command.CreateDesignElement;
+import com.madebynikhil.editor.command.DeleteSelection;
 import com.madebynikhil.editor.view.DesignerElementView;
 import com.madebynikhil.editor.view.StateView;
 import com.madebynikhil.editor.view.TransitionView;
@@ -98,6 +99,10 @@ public class DesignerController extends Observable{
             }
         }
         currentlyEditedStartArrow=null;
+    }
+
+    public void deleteSelectedElements(){
+        new DeleteSelection(this).commit(true);
     }
 
     public void setStartArrowPositionAndLength() {
@@ -197,7 +202,7 @@ public class DesignerController extends Observable{
         }
     }
 
-    private void clearSelection(){
+    public void clearSelection(){
 
         for(DesignerElementView elementView: this.selectedElements){
             elementView.setColor(DEFAULT_COLOR);

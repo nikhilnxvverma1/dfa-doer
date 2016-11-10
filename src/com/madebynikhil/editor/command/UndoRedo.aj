@@ -22,8 +22,9 @@ public privileged aspect UndoRedo {
     after(Command command):operationCommitted(command){
         System.out.println("Action: "+command.getName()+" committed");
 
-        //push the command onto the history stack
+        //push the command onto the history stack and reset future from here
         history.push(command);
+        future.clear();
     }
 
     //defines a pointcut for the undo event callback from GUI
