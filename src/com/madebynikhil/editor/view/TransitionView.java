@@ -33,7 +33,6 @@ public class TransitionView extends DesignerElementView implements Observer{
     public static final double START_ARROW=70;
     private static final double ARROW_WIDTH=10;
     private static final double ARROW_HEIGHT=10;
-    private DesignerController designerController;
     private StateView initialStateView;
     private StateView finalStateView;
     private List<String> symbolList=new LinkedList<>();
@@ -46,13 +45,13 @@ public class TransitionView extends DesignerElementView implements Observer{
     private Point2D endingPosition;
 
     public TransitionView(DesignerController designerController){
-        this.designerController = designerController;
+        super(designerController);
         this.initView();
         this.setupEvents();
     }
 
     public TransitionView(DesignerController designerController,StateView initialStateView) {
-        this.designerController = designerController;
+        super(designerController);
         this.initialStateView = initialStateView;
         this.initialStateView.getState().subscribe(this);
         this.initView();
@@ -61,7 +60,7 @@ public class TransitionView extends DesignerElementView implements Observer{
     }
 
     public TransitionView(DesignerController designerController,StateView initialStateView,StateView finalStateView) {
-        this.designerController = designerController;
+        super(designerController);
         this.initialStateView = initialStateView;
         this.finalStateView = finalStateView;
         this.initialStateView.getState().subscribe(this);
@@ -340,8 +339,34 @@ public class TransitionView extends DesignerElementView implements Observer{
         this.arrowHead.setFill(color);
     }
 
-    public DesignerController getDesignerController() {
-        return designerController;
+    @Override
+    public void removeFromModelAndView() {
+        //remove the view from the designer
+        designerController.getDesigner().getChildren().remove(this);
+
+        //remove this transition view from the initial state's map too
+        for (String s : symbolList) {
+            initialStateView.getState().getOutgoingTransitionMap().remove(s);
+
+            //remove it from the initial views' map
+            initialStateView.getTransitionViewMap().remove(s);
+        }
+    }
+
+    @Override
+    public void integrateInModelAndView() {
+        //add the view to the designer
+        designerController.getDesigner().getChildren().add(this);
+        recomputeEndpointsBasedOnStatePositions();
+
+        //also put it in the map of the model
+        for (String s : symbolList) {
+            initialStateView.getState().getOutgoingTransitionMap().put(
+                    s,finalStateView.getState().getName());
+
+            //put it in this views' map
+            initialStateView.getTransitionViewMap().put(s,this);
+        }
     }
 
     public List<String> getSymbolList() {

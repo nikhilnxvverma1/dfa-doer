@@ -1,10 +1,11 @@
 package com.madebynikhil.editor.view;
 
-import com.madebynikhil.editor.command.CreateTransition;
+import com.madebynikhil.editor.command.CreateDesignElement;
 import com.madebynikhil.editor.command.MoveStates;
 import com.madebynikhil.editor.command.ToggleState;
 import com.madebynikhil.editor.controller.DesignerController;
 import com.madebynikhil.model.State;
+import com.madebynikhil.model.StateMachine;
 import com.madebynikhil.observer.Observable;
 import com.madebynikhil.observer.Observer;
 import javafx.geometry.Point2D;
@@ -29,7 +30,6 @@ public class StateView extends DesignerElementView implements Observer{
     private static double lastModelDx;
     private static double lastModelDy;
 
-    private DesignerController designerController;
     private State state;
 
     private Circle outerCircle;
@@ -40,7 +40,7 @@ public class StateView extends DesignerElementView implements Observer{
     private Map<String,TransitionView> transitionViewMap=new HashMap<>();
 
     public StateView(DesignerController designerController, State state) {
-        this.designerController = designerController;
+        super(designerController);
         this.designerController.subscribe(this);
         this.state = state;
         this.initView();
@@ -200,7 +200,7 @@ public class StateView extends DesignerElementView implements Observer{
                 }
 
 
-                new CreateTransition(currentlyEditedTransition).commit(false);
+                new CreateDesignElement(currentlyEditedTransition).commit(false);
             }
             currentlyEditedTransition=null;
         }else{
@@ -239,8 +239,31 @@ public class StateView extends DesignerElementView implements Observer{
         //intentionally doesn't do it to the label
     }
 
-    public DesignerController getDesignerController() {
-        return designerController;
+    @Override
+    public void removeFromModelAndView() {
+        //remove it from the model but don't worry about other incoming edges,
+        //that has to be handled separately
+        StateMachine stateMachine = designerController.getWorkspace().getStateMachine();
+        stateMachine.getStateList().remove(state);
+        if(stateMachine.getStartingState()==state){
+            stateMachine.setStartingState(null);
+        }
+
+        //remove from view
+        designerController.getDesigner().getChildren().remove(this);
+        designerController.getStateViewList().remove(this);
+    }
+
+    @Override
+    public void integrateInModelAndView() {
+        //integrate it in the model but don't worry about other incoming edges,
+        //that has to be handled separately
+        StateMachine stateMachine = designerController.getWorkspace().getStateMachine();
+        stateMachine.getStateList().add(state);
+
+        //add to view, outgoing edges will have to be added separately
+        designerController.getDesigner().getChildren().add(this);
+        designerController.getStateViewList().add(this);
     }
 
     public Map<String, TransitionView> getTransitionViewMap() {

@@ -1,6 +1,7 @@
 package com.madebynikhil.editor.controller;
 
 import com.madebynikhil.editor.command.ChangeStartState;
+import com.madebynikhil.editor.command.CreateDesignElement;
 import com.madebynikhil.editor.view.DesignerElementView;
 import com.madebynikhil.editor.view.StateView;
 import com.madebynikhil.editor.view.TransitionView;
@@ -44,11 +45,7 @@ public class DesignerController extends Observable{
             System.out.println("mouse double clicked");
             State newState=new State(mouseEvent.getX(),mouseEvent.getY());
             newState.setName("S"+(stateViewList.size()+1));
-            StateView stateView=new StateView(this,newState);
-            this.designer.getChildren().add(stateView);
-            this.stateViewList.add(stateView);
-            this.workspace.getStateMachine().getStateList().add(stateView.getState());
-            selectElement(stateView);
+            new CreateDesignElement(new StateView(this,newState)).commit(true);
         }else{
             clearSelection();
         }
