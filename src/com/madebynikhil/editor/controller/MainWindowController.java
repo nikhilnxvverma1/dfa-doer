@@ -46,22 +46,24 @@ public class MainWindowController {
     private Workspace workspace;
 
     public void initialize() {
+
         this.workspace = new Workspace(this);
+
+        //hide the animation pane
+        closeAnimationPane();
     }
 
     @FXML
     private void openAnimationPane(){
         System.out.println("opening animation pane");
-        animationControls.setVisible(true);
-        animationControls.setManaged(true);
+        workspace.getRunController().setOpen(true);
         testInput.setDisable(true);
     }
 
     @FXML
     private void closeAnimationPane(){
         System.out.println("closing animation pane");
-        animationControls.setVisible(false);
-        animationControls.setManaged(false);
+        workspace.getRunController().setOpen(false);
         testInput.setDisable(false);
     }
 
@@ -115,6 +117,7 @@ public class MainWindowController {
 
     private void allowSymbolEditing(boolean allow){
         this.setEditingControls(allow,symbolsLink,editSymbols,symbolsOk,symbolsCancel);
+        editSymbols.setText(Workspace.getSymbolsAsCSV(workspace.getStateMachine().getSymbolList()));
     }
 
     @FXML
@@ -136,6 +139,7 @@ public class MainWindowController {
 
     private void allowDescriptionEditing(boolean allow){
         this.setEditingControls(allow,descriptionLink,editDescription,descriptionOk,descriptionCancel);
+        editDescription.setText(workspace.getStateMachine().getDescription());
     }
     
     private void setEditingControls(boolean visible,Hyperlink link,TextField editor,Button ok,Button cancel){
@@ -251,5 +255,9 @@ public class MainWindowController {
     @FXML
     private void redo(ActionEvent event){
         //this event essentially defines a pointcut for the undo redo aspect
+    }
+
+    public AnchorPane getAnimationControls() {
+        return animationControls;
     }
 }

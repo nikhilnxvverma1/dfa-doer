@@ -113,9 +113,9 @@
          <children>
             <Label layoutX="3.0" layoutY="4.0" text="Symbols:" />
             <Hyperlink fx:id="symbolsLink" onAction="#editSymbols" text="{a,b}" />
-            <TextField fx:id="editSymbols" layoutX="31.0" layoutY="-1.0" visible="false" />
-            <Button fx:id="symbolsOk" mnemonicParsing="false" onAction="#commitEditingSymbols" text="OK" visible="false" />
-            <Button fx:id="symbolsCancel" layoutX="274.0" layoutY="10.0" mnemonicParsing="false" onAction="#cancelEditingSymbols" text="Cancel" visible="false" />
+            <TextField fx:id="editSymbols" layoutX="31.0" layoutY="-1.0" onAction="#commitEditingSymbols" visible="false" />
+            <Button fx:id="symbolsOk" mnemonicParsing="false" onAction="#commitEditingSymbols" styleClass="commit-input" visible="false" />
+            <Button fx:id="symbolsCancel" layoutX="274.0" layoutY="10.0" mnemonicParsing="false" onAction="#cancelEditingSymbols" styleClass="cancel-input" visible="false" />
          </children>
          <VBox.margin>
             <Insets left="12.0" />
@@ -125,16 +125,16 @@
          <children>
             <Label layoutX="3.0" layoutY="4.0" text="Description:" />
             <Hyperlink fx:id="descriptionLink" onAction="#editDescription" text="Set of all languages that have a and b" />
-            <TextField fx:id="editDescription" layoutX="31.0" layoutY="-1.0" visible="false" />
-            <Button fx:id="descriptionOk" mnemonicParsing="false" onAction="#commitEditingDescription" text="OK" visible="false" />
-            <Button fx:id="descriptionCancel" layoutX="274.0" layoutY="10.0" mnemonicParsing="false" onAction="#cancelEditingDescription" text="Cancel" visible="false" />
+            <TextField fx:id="editDescription" layoutX="31.0" layoutY="-1.0" onAction="#commitEditingDescription" visible="false" HBox.hgrow="SOMETIMES" />
+            <Button fx:id="descriptionOk" mnemonicParsing="false" onAction="#commitEditingDescription" styleClass="commit-input" visible="false" />
+            <Button fx:id="descriptionCancel" layoutX="274.0" layoutY="10.0" mnemonicParsing="false" onAction="#cancelEditingDescription" styleClass="cancel-input" visible="false" />
          </children>
          <VBox.margin>
             <Insets left="12.0" />
          </VBox.margin>
       </HBox>
-      <Pane fx:id="designer" maxHeight="1.7976931348623157E308" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" prefHeight="609.0" prefWidth="916.0" style="-fx-background-color: #fff;" />
-      <AnchorPane fx:id="animationControls" styleClass="toolbar-gradient">
+      <Pane fx:id="designer" maxHeight="1.7976931348623157E308" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" prefWidth="916.0" style="-fx-background-color: #fff;" VBox.vgrow="ALWAYS" />
+      <AnchorPane fx:id="animationControls" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="75.0" styleClass="toolbar-gradient">
          <children>
             <VBox layoutX="3.0" layoutY="-2.0" prefHeight="78.0" prefWidth="259.0" AnchorPane.leftAnchor="0.0">
                <children>
@@ -154,7 +154,7 @@
                   </HBox>
                </children>
             </VBox>
-            <Button id="finish-test" fx:id="finishAnimation" layoutX="734.0" layoutY="42.0" minWidth="21.0" mnemonicParsing="false" onAction="#closeAnimationPane" prefHeight="17.0" prefWidth="30.0" styleClass="image-button" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+            <Button id="finish-test" fx:id="finishAnimation" layoutX="734.0" layoutY="42.0" minWidth="21.0" mnemonicParsing="false" onAction="#closeAnimationPane" styleClass="image-button" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
          </children>
       </AnchorPane>
    </children>

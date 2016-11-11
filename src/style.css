@@ -5,7 +5,7 @@
 }
 
 .toolbar-gradient{
-    -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, #DFDDDF, #CECCCE);
+    -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, #f0eef0, #e1dfe1);
 }
 
 .image-button{
@@ -66,4 +66,32 @@
 
 #speed-slider .track{
     -fx-background-color: #606060;
+}
+
+.commit-input{
+    -fx-background-image: url('images/green-tick.png');
+    -fx-background-size: 20px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-min-width: 30px;
+    -fx-background-insets: 0px;
+    -fx-background-color: transparent;
+}
+
+.cancel-input{
+    -fx-background-image: url('images/red-cross.png');
+    -fx-background-size: 20px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-min-width: 30px;
+    -fx-background-insets: 0px;
+    -fx-background-color: transparent;
+}
+
+.commit-input:pressed{
+    -fx-background-color: #bcbabc;
+}
+
+.cancel-input:pressed{
+    -fx-background-color: #bcbabc;
 }

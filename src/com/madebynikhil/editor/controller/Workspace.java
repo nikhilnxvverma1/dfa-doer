@@ -27,6 +27,7 @@ public class Workspace {
     private String filename;
     private File file;
     private DesignerController designerController;
+    private RunController runController;
 
 
     public Workspace(MainWindowController mainWindowController) {
@@ -37,6 +38,7 @@ public class Workspace {
         this.mainWindowController=mainWindowController;
         this.filename = filename;
         this.designerController=new DesignerController(this,mainWindowController.getDesigner());
+        this.runController=new RunController(this);
         if(filename==null){
             this.stateMachine=new StateMachine();
 
@@ -155,5 +157,7 @@ public class Workspace {
         return stateMachine.getStateList().isEmpty();
     }
 
-
+    public RunController getRunController() {
+        return runController;
+    }
 }
