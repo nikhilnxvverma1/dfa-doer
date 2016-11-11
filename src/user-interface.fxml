@@ -66,7 +66,7 @@
                         <KeyCodeCombination alt="UP" code="Z" control="UP" meta="DOWN" shift="DOWN" shortcut="UP" />
                      </accelerator></MenuItem>
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" onAction="#delete" text="Delete" >
+                  <MenuItem mnemonicParsing="false" onAction="#delete" text="Delete">
                     <accelerator>
                        <KeyCodeCombination alt="UP" code="BACK_SPACE" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
                     </accelerator>
@@ -98,14 +98,17 @@
             </Menu>
         </menus>
       </MenuBar>
-      <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
-        <items>
-          <Button mnemonicParsing="false" text="Export" />
-            <Button fx:id="testInput" disable="true" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#openAnimationPane" text="Test Input" />
-            <Button layoutX="72.0" layoutY="10.0" mnemonicParsing="false" text="Zoom In" />
-            <Button layoutX="157.0" layoutY="10.0" mnemonicParsing="false" text="Zoom Out" />
-        </items>
-      </ToolBar>
+      <AnchorPane styleClass="toolbar-gradient">
+         <children>
+          <Button id="export" mnemonicParsing="false" styleClass="image-button" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="0.0" />
+            <Button id="run-string" fx:id="testInput" layoutY="81.0" mnemonicParsing="false" onAction="#openAnimationPane" styleClass="image-button" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0" />
+            <Button id="zoom-out" layoutY="27.0" mnemonicParsing="false" styleClass="image-button" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="0.0" />
+            <Button id="zoom-in" layoutY="54.0" mnemonicParsing="false" styleClass="image-button" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="0.0" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" top="5.0" />
+         </padding>
+      </AnchorPane>
       <HBox alignment="CENTER_LEFT">
          <children>
             <Label layoutX="3.0" layoutY="4.0" text="Symbols:" />
@@ -131,27 +134,27 @@
          </VBox.margin>
       </HBox>
       <Pane fx:id="designer" maxHeight="1.7976931348623157E308" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" prefHeight="609.0" prefWidth="916.0" style="-fx-background-color: #fff;" />
-      <AnchorPane fx:id="animationControls">
+      <AnchorPane fx:id="animationControls" styleClass="toolbar-gradient">
          <children>
-            <HBox alignment="CENTER" layoutX="653.0" layoutY="12.0" prefHeight="38.0" prefWidth="259.0" spacing="12.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="12.0">
+            <VBox layoutX="3.0" layoutY="-2.0" prefHeight="78.0" prefWidth="259.0" AnchorPane.leftAnchor="0.0">
                <children>
-                  <Label text="Playback Speed" />
-                  <Slider />
+                  <HBox alignment="CENTER" layoutX="327.0" layoutY="8.0" prefHeight="47.0" prefWidth="225.0" spacing="19.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="10.0">
+                     <children>
+                        <Button id="step-back" mnemonicParsing="false" styleClass="image-button" />
+                        <Button id="play-pause" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" styleClass="image-button" />
+                        <Button id="step-forward" layoutX="69.0" layoutY="10.0" mnemonicParsing="false" styleClass="image-button" />
+                        <Button id="edit-string" layoutX="167.0" layoutY="20.0" mnemonicParsing="false" styleClass="image-button" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="653.0" layoutY="12.0" prefHeight="38.0" prefWidth="259.0" spacing="6.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="12.0">
+                     <children>
+                        <Label text="Playback Speed" />
+                        <Slider id="speed-slider" max="1.0" value="0.5" />
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
-            <HBox alignment="CENTER" layoutX="327.0" layoutY="8.0" prefHeight="47.0" prefWidth="225.0" spacing="12.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="345.0">
-               <children>
-                  <Button mnemonicParsing="false" text="Back" />
-                  <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Play/Pause" />
-                  <Button layoutX="69.0" layoutY="10.0" mnemonicParsing="false" text="Next" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" layoutX="17.0" layoutY="9.0" prefHeight="47.0" prefWidth="178.0" spacing="12.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="12.0">
-               <children>
-                  <Button fx:id="finishAnimation" mnemonicParsing="false" onAction="#closeAnimationPane" text="Finish" />
-                  <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Jump to Final" />
-               </children>
-            </HBox>
+            </VBox>
+            <Button id="finish-test" fx:id="finishAnimation" layoutX="734.0" layoutY="42.0" minWidth="21.0" mnemonicParsing="false" onAction="#closeAnimationPane" prefHeight="17.0" prefWidth="30.0" styleClass="image-button" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
          </children>
       </AnchorPane>
    </children>

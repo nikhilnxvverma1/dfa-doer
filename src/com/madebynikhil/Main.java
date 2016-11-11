@@ -20,7 +20,7 @@ public class Main extends Application{
 
     public static final String TITLE="Untitled";
     private static final String MAIN_VIEW_LOCATION="user-interface.fxml";
-    private static final String STYLESHEET="user-interface.css";
+    private static final String STYLESHEET="style.css";
 
     File fileToOpen=null;
 
