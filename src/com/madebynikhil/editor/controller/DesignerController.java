@@ -23,10 +23,6 @@ import java.util.*;
  */
 public class DesignerController extends Observable{
 
-    public static final Color DEFAULT_COLOR=Color.BLACK;
-    public static final Color HOVER_COLOR=Color.LIGHTBLUE;
-    public static final Color SELECTED_COLOR=Color.BLUE;
-
     private static final double INITIAL_ZOOM=0;
     private Workspace workspace;
     private Pane designer;
@@ -170,14 +166,15 @@ public class DesignerController extends Observable{
     }
 
     public void mouseEntered(DesignerElementView elementView){
-        if (!selectedElements.contains(elementView)) {
-            elementView.setColor(HOVER_COLOR);
+        if (!selectedElements.contains(elementView) &&
+                !workspace.getRunController().isOpen()) {
+            elementView.setColor(DesignerElementView.HOVER_COLOR);
         }
     }
 
     public void mouseExited(DesignerElementView elementView){
         if (!selectedElements.contains(elementView)) {
-            elementView.setColor(DEFAULT_COLOR);
+            elementView.setColor(DesignerElementView.DEFAULT_COLOR);
         }
     }
 
@@ -187,7 +184,7 @@ public class DesignerController extends Observable{
                 clearSelection();
             }
             this.selectedElements.add(elementView);
-            elementView.setColor(SELECTED_COLOR);
+            elementView.setColor(DesignerElementView.SELECTED_COLOR);
         }
     }
 
@@ -198,14 +195,14 @@ public class DesignerController extends Observable{
     public void unSelectElement(DesignerElementView elementView){
         if(selectedElements.contains(elementView)){
             this.selectedElements.remove(elementView);
-            elementView.setColor(DEFAULT_COLOR);
+            elementView.setColor(DesignerElementView.DEFAULT_COLOR);
         }
     }
 
     public void clearSelection(){
 
         for(DesignerElementView elementView: this.selectedElements){
-            elementView.setColor(DEFAULT_COLOR);
+            elementView.setColor(DesignerElementView.DEFAULT_COLOR);
         }
         selectedElements.clear();
     }

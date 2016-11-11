@@ -10,6 +10,12 @@ import javafx.scene.paint.Color;
  * Created by NikhilVerma on 07/11/16.
  */
 public abstract class DesignerElementView extends Group{
+
+    public static final Color DEFAULT_COLOR=Color.BLACK;
+    public static final Color HOVER_COLOR=Color.LIGHTBLUE;
+    public static final Color SELECTED_COLOR=Color.BLUE;
+
+
     protected DesignerController designerController;
 
     public DesignerElementView(DesignerController designerController) {

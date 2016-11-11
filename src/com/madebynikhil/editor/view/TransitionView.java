@@ -120,16 +120,17 @@ public class TransitionView extends DesignerElementView implements Observer{
         this.textField.addEventHandler(MouseEvent.MOUSE_EXITED,(e)->designerController.mouseExited(this));
         this.arrowHead.addEventHandler(MouseEvent.MOUSE_EXITED,(e)->designerController.mouseExited(this));
 
-        EventHandler<MouseEvent> selectThis=(e)->{
-            designerController.selectElement(this,!e.isShiftDown());
-            e.consume();
-        };
 
-        this.line.addEventHandler(MouseEvent.MOUSE_CLICKED,selectThis);
-        this.arrowHead.addEventHandler(MouseEvent.MOUSE_CLICKED,selectThis);
+        this.line.addEventHandler(MouseEvent.MOUSE_CLICKED,this::transitionClickedOrPressed);
+        this.arrowHead.addEventHandler(MouseEvent.MOUSE_CLICKED,this::transitionClickedOrPressed);
 
-        this.line.addEventHandler(MouseEvent.MOUSE_PRESSED,selectThis);
-        this.arrowHead.addEventHandler(MouseEvent.MOUSE_PRESSED,selectThis);
+        this.line.addEventHandler(MouseEvent.MOUSE_PRESSED,this::transitionClickedOrPressed);
+        this.arrowHead.addEventHandler(MouseEvent.MOUSE_PRESSED,this::transitionClickedOrPressed);
+    }
+
+    private void transitionClickedOrPressed(MouseEvent mouseEvent){
+        designerController.selectElement(this,!mouseEvent.isShiftDown());
+        mouseEvent.consume();
     }
 
     private void editTransitions(MouseEvent event) {

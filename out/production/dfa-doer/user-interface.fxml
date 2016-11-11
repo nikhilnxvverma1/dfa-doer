@@ -149,7 +149,7 @@
                   <HBox alignment="CENTER" layoutX="653.0" layoutY="12.0" prefHeight="38.0" prefWidth="259.0" spacing="6.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="12.0">
                      <children>
                         <Label text="Playback Speed" />
-                        <Slider id="speed-slider" max="1.0" value="0.5" />
+                        <Slider id="speed-slider" fx:id="playbackSpeed" max="1.0" onMouseClicked="#changePlaybackSpeed" onMouseDragged="#changePlaybackSpeed" value="0.5" />
                      </children>
                   </HBox>
                </children>

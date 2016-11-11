@@ -4,10 +4,7 @@ import com.madebynikhil.Main;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -33,6 +30,7 @@ public class MainWindowController {
     @FXML private Button testInput;
     @FXML private Button finishAnimation;
     @FXML private AnchorPane animationControls;
+    @FXML private Slider playbackSpeed;
     @FXML private Hyperlink symbolsLink;
     @FXML private TextField editSymbols;
     @FXML private Button symbolsOk;
@@ -51,17 +49,18 @@ public class MainWindowController {
 
         //hide the animation pane
         closeAnimationPane();
+        workspace.getRunController().changePlaybackSpeed(playbackSpeed.getValue());
     }
 
     @FXML
-    private void openAnimationPane(){
+    public void openAnimationPane(){
         System.out.println("opening animation pane");
         workspace.getRunController().setOpen(true);
         testInput.setDisable(true);
     }
 
     @FXML
-    private void closeAnimationPane(){
+    public void closeAnimationPane(){
         System.out.println("closing animation pane");
         workspace.getRunController().setOpen(false);
         testInput.setDisable(false);
@@ -69,24 +68,33 @@ public class MainWindowController {
 
     @FXML
     public void mouseClicked(MouseEvent mouseEvent){
-        this.workspace.getDesignerController().handleMouseClicked(mouseEvent);
+        if (workspace.getRunController().isOpen()) {
+            if(mouseEvent.getClickCount()>=2){
+                closeAnimationPane();
+            }
+        }else{
+            this.workspace.getDesignerController().handleMouseClicked(mouseEvent);
+        }
     }
 
     @FXML
     public void mousePressed(MouseEvent mouseEvent){
-//        System.out.println("mouse pressed at "+mouseEvent.getScreenX()+" "+mouseEvent.getScreenY());
-        this.workspace.getDesignerController().handleMousePress(mouseEvent);
+        if (!workspace.getRunController().isOpen()) {
+            this.workspace.getDesignerController().handleMousePress(mouseEvent);
+        }
     }
 
     @FXML
     public void mouseDragged(MouseEvent mouseEvent){
-//        System.out.println("mouse dragged at "+mouseEvent.getScreenX()+" "+mouseEvent.getScreenY());
-        this.workspace.getDesignerController().handleMouseDrag(mouseEvent);
+        if (!workspace.getRunController().isOpen()) {
+            this.workspace.getDesignerController().handleMouseDrag(mouseEvent);
+        }
     }
     @FXML
     public void mouseReleased(MouseEvent mouseEvent){
-//        System.out.println("mouse released at "+mouseEvent.getScreenX()+" "+mouseEvent.getScreenY());
-        this.workspace.getDesignerController().handleMouseRelease(mouseEvent);
+        if (!workspace.getRunController().isOpen()) {
+            this.workspace.getDesignerController().handleMouseRelease(mouseEvent);
+        }
 
     }
 
@@ -259,5 +267,10 @@ public class MainWindowController {
 
     public AnchorPane getAnimationControls() {
         return animationControls;
+    }
+
+    @FXML
+    private void changePlaybackSpeed(MouseEvent mouseEvent){
+        workspace.getRunController().changePlaybackSpeed(playbackSpeed.getValue());
     }
 }

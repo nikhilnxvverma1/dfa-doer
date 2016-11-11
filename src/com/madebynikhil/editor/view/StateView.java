@@ -155,32 +155,6 @@ public class StateView extends DesignerElementView implements Observer{
         event.consume();
     }
 
-    private void changePositionAndShiftOtherSelectedStates(Point2D positionInsideDesigner) {
-
-        //first change the position of the this state so we have the latest layout x,y
-        Point2D modelPosition=designerController.toModelSpace(positionInsideDesigner);
-        state.setPosition(modelPosition.getX(),modelPosition.getY());
-
-        //after setting the position of this model, compute the dx and dy
-        double modelDx=designerController.lengthInModalSpace(getLayoutX()-pressedX);
-        double modelDy=designerController.lengthInModalSpace(getLayoutY()-pressedY);
-
-        //also do it for all the existing selected states
-        for (DesignerElementView elementView : designerController.getSelectedElements()) {
-            if(elementView instanceof StateView && elementView!=this){
-
-                //ddd the dx and dy and the observers will respond accordingly
-                StateView stateView=(StateView)elementView;
-                double x = stateView.getState().getX();
-                double y = stateView.getState().getY();
-                stateView.getState().setPosition(x+(modelDx-lastModelDx),y+(modelDy-lastModelDy));
-            }
-        }
-        lastModelDx=modelDx;
-        lastModelDy=modelDy;
-    }
-
-
     private void stateReleased(MouseEvent event){
         if(currentlyEditedTransition!=null){
             if((currentlyEditedTransition.getFinalStateView()==null)||
@@ -218,6 +192,32 @@ public class StateView extends DesignerElementView implements Observer{
             }
         }
     }
+
+    private void changePositionAndShiftOtherSelectedStates(Point2D positionInsideDesigner) {
+
+        //first change the position of the this state so we have the latest layout x,y
+        Point2D modelPosition=designerController.toModelSpace(positionInsideDesigner);
+        state.setPosition(modelPosition.getX(),modelPosition.getY());
+
+        //after setting the position of this model, compute the dx and dy
+        double modelDx=designerController.lengthInModalSpace(getLayoutX()-pressedX);
+        double modelDy=designerController.lengthInModalSpace(getLayoutY()-pressedY);
+
+        //also do it for all the existing selected states
+        for (DesignerElementView elementView : designerController.getSelectedElements()) {
+            if(elementView instanceof StateView && elementView!=this){
+
+                //ddd the dx and dy and the observers will respond accordingly
+                StateView stateView=(StateView)elementView;
+                double x = stateView.getState().getX();
+                double y = stateView.getState().getY();
+                stateView.getState().setPosition(x+(modelDx-lastModelDx),y+(modelDy-lastModelDy));
+            }
+        }
+        lastModelDx=modelDx;
+        lastModelDy=modelDy;
+    }
+
 
     private TransitionView containsTransition(StateView finalStateView){
         Collection<TransitionView> allOutgoingTransitions = transitionViewMap.values();
