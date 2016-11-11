@@ -8,12 +8,10 @@ import com.madebynikhil.editor.view.StateView;
 import com.madebynikhil.editor.view.TransitionView;
 import com.madebynikhil.model.State;
 import com.madebynikhil.model.StateMachine;
-import com.madebynikhil.model.Transition;
 import com.madebynikhil.observer.Observable;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 
 import java.util.*;
 
@@ -277,5 +275,34 @@ public class DesignerController extends Observable{
 
     public void setStartArrowView(TransitionView startArrowView) {
         this.startArrowView = startArrowView;
+    }
+
+    public void runAreaOpened(boolean open){
+        if (open) {
+            workspace.getDesignerController().clearSelection();
+            resetDesignerElementViewsToDefaultColor();
+        }
+    }
+
+    private void resetDesignerElementViewsToDefaultColor(){
+
+        if(startArrowView!=null){
+            startArrowView.setColor(DesignerElementView.DEFAULT_COLOR);
+        }
+
+        for (StateView stateView : stateViewList) {
+            stateView.setColor(DesignerElementView.DEFAULT_COLOR);
+
+            //also set that color to all outgoing edges
+            Collection<TransitionView> decidedOutoingEdges = stateView.getTransitionViewMap().values();
+            for (TransitionView transitionView : decidedOutoingEdges) {
+                transitionView.setColor(DesignerElementView.DEFAULT_COLOR);
+            }
+
+            Collection<TransitionView> unDecidedOutoingEdges = stateView.getUndecidedTransitionViewMap().values();
+            for (TransitionView transitionView : unDecidedOutoingEdges) {
+                transitionView.setColor(DesignerElementView.DEFAULT_COLOR);
+            }
+        }
     }
 }

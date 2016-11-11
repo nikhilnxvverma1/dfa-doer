@@ -7,12 +7,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import javax.swing.*;
 import java.io.File;
 
 /**
@@ -27,7 +27,7 @@ public class MainWindowController {
 
     @FXML private Pane designer;
 
-    @FXML private Button testInput;
+    @FXML private Button runString;
     @FXML private Button finishAnimation;
     @FXML private AnchorPane animationControls;
     @FXML private Slider playbackSpeed;
@@ -40,6 +40,11 @@ public class MainWindowController {
     @FXML private TextField editDescription;
     @FXML private Button descriptionOk;
     @FXML private Button descriptionCancel;
+    @FXML private HBox testStringContainer;
+    @FXML private TextField testInput;
+    @FXML private Button testInputOk;
+    @FXML private Button testInputCancel;
+    @FXML private Button editTestInput;
 
     private Workspace workspace;
 
@@ -56,14 +61,12 @@ public class MainWindowController {
     public void openAnimationPane(){
         System.out.println("opening animation pane");
         workspace.getRunController().setOpen(true);
-        testInput.setDisable(true);
     }
 
     @FXML
     public void closeAnimationPane(){
         System.out.println("closing animation pane");
         workspace.getRunController().setOpen(false);
-        testInput.setDisable(false);
     }
 
     @FXML
@@ -272,5 +275,44 @@ public class MainWindowController {
     @FXML
     private void changePlaybackSpeed(MouseEvent mouseEvent){
         workspace.getRunController().changePlaybackSpeed(playbackSpeed.getValue());
+    }
+
+    @FXML
+    private void testNewInput(ActionEvent actionEvent){
+        workspace.getRunController().setNewTest(testInput.getText());
+    }
+
+    @FXML
+    private void cancelledSettingNewInput(ActionEvent actionEvent){
+        workspace.getRunController().cancelledNewTest();
+    }
+
+    @FXML
+    private void editTestInput(){
+        workspace.getRunController().openTestInputEditing(true);
+    }
+
+    public TextField getTestInput() {
+        return testInput;
+    }
+
+    public Button getRunString() {
+        return runString;
+    }
+
+    public HBox getTestStringContainer() {
+        return testStringContainer;
+    }
+
+    public Button getTestInputOk() {
+        return testInputOk;
+    }
+
+    public Button getTestInputCancel() {
+        return testInputCancel;
+    }
+
+    public Button getEditTestInput() {
+        return editTestInput;
     }
 }

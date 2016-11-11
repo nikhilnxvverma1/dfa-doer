@@ -3,6 +3,7 @@ package com.madebynikhil.editor.controller;
 import com.madebynikhil.editor.view.DesignerElementView;
 import com.madebynikhil.editor.view.StateView;
 import com.madebynikhil.editor.view.TransitionView;
+import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.Collection;
@@ -42,39 +43,40 @@ public class RunController {
         this.open = open;
         animationControls.setVisible(open);
         animationControls.setManaged(open);
-        if(open){
-            setDesignerElementViewsToDefaultColor();
-        }
-        workspace.getDesignerController().clearSelection();
-    }
-
-    private void setDesignerElementViewsToDefaultColor(){
-
-        TransitionView startArrowView = workspace.getDesignerController().getStartArrowView();
-        if(startArrowView!=null){
-            startArrowView.setColor(DesignerElementView.DEFAULT_COLOR);
-        }
-
-        List<StateView> stateViewList = workspace.getDesignerController().getStateViewList();
-
-        for (StateView stateView : stateViewList) {
-            stateView.setColor(DesignerElementView.DEFAULT_COLOR);
-
-            //also set that color to all outgoing edges
-            Collection<TransitionView> decidedOutoingEdges = stateView.getTransitionViewMap().values();
-            for (TransitionView transitionView : decidedOutoingEdges) {
-                transitionView.setColor(DesignerElementView.DEFAULT_COLOR);
-            }
-
-            Collection<TransitionView> unDecidedOutoingEdges = stateView.getUndecidedTransitionViewMap().values();
-            for (TransitionView transitionView : unDecidedOutoingEdges) {
-                transitionView.setColor(DesignerElementView.DEFAULT_COLOR);
-            }
-        }
+        workspace.getMainWindowController().getRunString().setDisable(open);
+        workspace.getDesignerController().runAreaOpened(open);
+        openTestInputEditing(true);
     }
 
     public void changePlaybackSpeed(double sliderValue){
-        delay=MIN_DELAY+ sliderValue*(MAX_DELAY-MIN_DELAY);
-        System.out.println("delay is "+delay);
+        delay=MAX_DELAY - sliderValue*(MAX_DELAY-MIN_DELAY);
+    }
+
+    public void setNewTest(String test) {
+        this.test = workspace.getMainWindowController().getTestInput().getText();
+        System.out.println("new Test string is "+test);
+        openTestInputEditing(false);
+    }
+
+    public void cancelledNewTest() {
+        //TODO check with existing string
+        openTestInputEditing(false);
+    }
+
+    public void openTestInputEditing(boolean openForEditing){
+
+        workspace.getMainWindowController().getEditTestInput().setDisable(openForEditing);
+        displayNone(workspace.getMainWindowController().getTestInput(),openForEditing);
+        displayNone(workspace.getMainWindowController().getTestInputOk(),openForEditing);
+        displayNone(workspace.getMainWindowController().getTestInputCancel(),openForEditing);
+
+        if(openForEditing){
+            workspace.getMainWindowController().getTestInput().requestFocus();
+        }
+    }
+
+    private void displayNone(Node node,boolean display){
+        node.setManaged(display);
+        node.setVisible(display);
     }
 }
