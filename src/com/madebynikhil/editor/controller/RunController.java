@@ -4,11 +4,14 @@ import com.madebynikhil.editor.view.DesignerElementView;
 import com.madebynikhil.editor.view.StateView;
 import com.madebynikhil.editor.view.TestSymbolLabel;
 import com.madebynikhil.editor.view.TransitionView;
-import com.madebynikhil.model.Transition;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.util.Duration;
 
 /**
  * All animation and string testing is done using this controller.
@@ -22,6 +25,8 @@ public class RunController {
 
     private Workspace workspace;
     private boolean open;
+    private boolean playing;
+    private Timeline timeline;
 
     private AnchorPane animationControls;
 
@@ -61,6 +66,9 @@ public class RunController {
 
     public void changePlaybackSpeed(double sliderValue){
         delay=MAX_DELAY - sliderValue*(MAX_DELAY-MIN_DELAY);
+        if (timeline != null) {
+            timeline.setDelay(new Duration(delay));
+        }
     }
 
     public void setNewTest(String test) {
@@ -186,5 +194,30 @@ public class RunController {
 
     public StateView getCurrentState() {
         return currentState;
+    }
+
+    public boolean isPlaying() {
+        return playing;
+    }
+
+    public void setPlaying(boolean playing) {
+        this.playing = playing;
+        if(playing){
+            workspace.getMainWindowController().getPlayPause().setStyle("-fx-background-image: url('/images/pause.png')");
+
+            timeline = new Timeline(new KeyFrame(Duration.millis(delay), actionEvent -> {
+                if(currentIndex<test.length()-1){
+                    setCurrentIndex(currentIndex+1);
+                }else{
+                    timeline.stop();
+                    this.setPlaying(false);//recursive but it will return back just fine
+                }
+            }));
+            timeline.setCycleCount(Animation.INDEFINITE);
+            timeline.play();
+
+        }else{
+            workspace.getMainWindowController().getPlayPause().setStyle("-fx-background-image: url('/images/play.png')");
+        }
     }
 }

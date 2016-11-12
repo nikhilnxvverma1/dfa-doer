@@ -141,7 +141,7 @@
                   <HBox alignment="CENTER" layoutX="327.0" layoutY="8.0" prefHeight="47.0" prefWidth="225.0" spacing="19.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="10.0">
                      <children>
                         <Button id="step-back" fx:id="stepBack" mnemonicParsing="false" onAction="#stepBack" styleClass="image-button" />
-                        <Button id="play-pause" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" styleClass="image-button" />
+                        <Button id="play-pause" fx:id="playPause" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#togglePlayPause" styleClass="image-button" />
                         <Button id="step-forward" fx:id="stepNext" layoutX="69.0" layoutY="10.0" mnemonicParsing="false" onAction="#stepNext" styleClass="image-button" />
                         <Button id="edit-string" fx:id="editTestInput" disable="true" layoutX="167.0" layoutY="20.0" mnemonicParsing="false" onAction="#editTestInput" styleClass="image-button" />
                      </children>

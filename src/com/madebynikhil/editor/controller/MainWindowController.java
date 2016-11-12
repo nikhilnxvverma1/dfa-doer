@@ -37,6 +37,7 @@ public class MainWindowController {
     @FXML private Button symbolsCancel;
     @FXML private Button stepNext;
     @FXML private Button stepBack;
+    @FXML private Button playPause;
 
     @FXML private Hyperlink descriptionLink;
     @FXML private TextField editDescription;
@@ -304,6 +305,12 @@ public class MainWindowController {
         workspace.getRunController().setCurrentIndex(workspace.getRunController().getCurrentIndex()-1);
     }
 
+    @FXML
+    private void togglePlayPause(ActionEvent actionEvent){
+        RunController runController = workspace.getRunController();
+        runController.setPlaying(!runController.isPlaying());
+    }
+
     public TextField getTestInput() {
         return testInput;
     }
@@ -334,5 +341,9 @@ public class MainWindowController {
 
     public Button getStepBack() {
         return stepBack;
+    }
+
+    public Button getPlayPause() {
+        return playPause;
     }
 }
