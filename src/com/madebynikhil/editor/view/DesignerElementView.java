@@ -14,6 +14,7 @@ public abstract class DesignerElementView extends Group{
     public static final Color DEFAULT_COLOR=Color.BLACK;
     public static final Color HOVER_COLOR=Color.LIGHTBLUE;
     public static final Color SELECTED_COLOR=Color.BLUE;
+    public static final Color TEST_HIGHLIGHT_COLOR=new Color(75.0/255,234.0/255,225.0/255,1);
 
 
     protected DesignerController designerController;
