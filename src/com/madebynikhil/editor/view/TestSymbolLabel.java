@@ -13,10 +13,11 @@ import javafx.scene.text.Font;
 public class TestSymbolLabel extends Label {
 
     public static final Color DEFAULT_COLOR=Color.BLACK;
-    private static final Color HOVER_COLOR=Color.BLUE;
-    private static final Color COMPLETED_COLOR=Color.GREEN;
-    private static final Color SELECTED_COLOR=Color.ORANGE;
-    private static final Color FAIL_COLOR=Color.RED;
+    public static final Color HOVER_COLOR=Color.BLUE;
+    public static final Color COMPLETED_COLOR=Color.GREEN;
+    public static final Color SELECTED_COLOR=new Color(167.0/255,97.0/255,9.0/255,1);
+    public static final Color FAIL_COLOR=Color.RED;
+    public static final Color PASS_COLOR=Color.GREEN;
 
     private RunController runController;
     private int index;
@@ -44,9 +45,7 @@ public class TestSymbolLabel extends Label {
     }
 
     private void symbolClicked(MouseEvent event){
-        System.out.println("Symbol clicked"+testString.charAt(index));
         runController.setCurrentIndex(index);
-        runController.setLabelColorsAccordingToProgress();
     }
 
     private void symbolEntered(MouseEvent event){
@@ -59,7 +58,16 @@ public class TestSymbolLabel extends Label {
 
     public void setColorAccordingToIndexProgress() {
         if (runController.getCurrentIndex()==index) {
-            setTextFill(SELECTED_COLOR);
+
+            if(index==testString.length()-1){
+                if(runController.getCurrentState().getState().isFinalState()){
+                    setTextFill(PASS_COLOR);
+                }else{
+                    setTextFill(FAIL_COLOR);
+                }
+            }else{
+                setTextFill(SELECTED_COLOR);
+            }
         }else if(index < runController.getCurrentIndex()){
             setTextFill(COMPLETED_COLOR);
         }else{

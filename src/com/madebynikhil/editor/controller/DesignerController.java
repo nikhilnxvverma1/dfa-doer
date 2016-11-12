@@ -284,7 +284,7 @@ public class DesignerController extends Observable{
         }
     }
 
-    private void resetDesignerElementViewsToDefaultColor(){
+    public void resetDesignerElementViewsToDefaultColor(){
 
         if(startArrowView!=null){
             startArrowView.setColor(DesignerElementView.DEFAULT_COLOR);

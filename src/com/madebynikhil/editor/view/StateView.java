@@ -52,6 +52,7 @@ public class StateView extends DesignerElementView implements Observer{
     private void initView(){
         this.outerCircle=new Circle(designerController.lengthInCurrentZoom(STATE_RADIUS),Color.WHITE);
         this.outerCircle.setStroke(Color.BLACK);
+        this.outerCircle.setStrokeWidth(1.5);
         this.innerCircle=new Circle(designerController.lengthInCurrentZoom(STATE_INNER_RADIUS),Color.WHITE);
         this.innerCircle.setVisible(state.isFinalState());
         this.innerCircle.setStroke(Color.BLACK);

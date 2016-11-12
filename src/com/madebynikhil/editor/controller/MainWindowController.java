@@ -35,6 +35,8 @@ public class MainWindowController {
     @FXML private TextField editSymbols;
     @FXML private Button symbolsOk;
     @FXML private Button symbolsCancel;
+    @FXML private Button stepNext;
+    @FXML private Button stepBack;
 
     @FXML private Hyperlink descriptionLink;
     @FXML private TextField editDescription;
@@ -292,6 +294,16 @@ public class MainWindowController {
         workspace.getRunController().openTestInputEditing(true);
     }
 
+    @FXML
+    private void stepNext(ActionEvent actionEvent){
+        workspace.getRunController().setCurrentIndex(workspace.getRunController().getCurrentIndex()+1);
+    }
+
+    @FXML
+    private void stepBack(ActionEvent actionEvent){
+        workspace.getRunController().setCurrentIndex(workspace.getRunController().getCurrentIndex()-1);
+    }
+
     public TextField getTestInput() {
         return testInput;
     }
@@ -314,5 +326,13 @@ public class MainWindowController {
 
     public Button getEditTestInput() {
         return editTestInput;
+    }
+
+    public Button getStepNext() {
+        return stepNext;
+    }
+
+    public Button getStepBack() {
+        return stepBack;
     }
 }

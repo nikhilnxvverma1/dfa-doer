@@ -53,6 +53,10 @@ public class RunController {
         workspace.getMainWindowController().getRunString().setDisable(open);
         workspace.getDesignerController().runAreaOpened(open);
         openTestInputEditing(true);
+        if(!open){
+            test=null;
+            workspace.getDesignerController().resetDesignerElementViewsToDefaultColor();
+        }
     }
 
     public void changePlaybackSpeed(double sliderValue){
@@ -64,6 +68,7 @@ public class RunController {
         System.out.println("new Test string is "+test);
         openTestInputEditing(false);
         makeSymbolLabelsFor(this.test);
+        setCurrentIndex(test.length()-1);
     }
 
     private void makeSymbolLabelsFor(String string){
@@ -78,8 +83,11 @@ public class RunController {
     }
 
     public void cancelledNewTest() {
-        //TODO check with existing string
         openTestInputEditing(false);
+        //check with existing string if doesn't exist, close the test area
+        if(test==null){
+            setOpen(false);
+        }
     }
 
     public void openTestInputEditing(boolean openForEditing){
@@ -107,16 +115,36 @@ public class RunController {
     }
 
     public void setCurrentIndex(int currentIndex) {
-        if(currentIndex>test.length()||currentIndex==this.currentIndex){
+        if(test==null||
+                currentIndex>test.length()||
+                currentIndex==this.currentIndex||
+                currentIndex<0||
+                currentIndex>=test.length()){
             return;
         }
         this.currentIndex = currentIndex;
+        workspace.getDesignerController().resetDesignerElementViewsToDefaultColor();
         //change the colors of the state diagram accordingly
         currentTransition=runTillIndex(currentIndex);
         if (currentTransition!=null) {
             currentState=currentTransition.getFinalStateView();
             currentState.setColor(DesignerElementView.TEST_HIGHLIGHT_COLOR);
+
+            if(currentIndex==test.length()-1){
+                if(currentState.getState().isFinalState()){
+                    currentState.setColor(DesignerElementView.TEST_PASS_COLOR);
+                }else{
+                    currentState.setColor(DesignerElementView.TEST_FAIL_COLOR);
+                }
+
+            }
         }
+        setLabelColorsAccordingToProgress();
+
+        //set the disability of the stepping buttons
+        workspace.getMainWindowController().getStepNext().setDisable(currentIndex>=test.length()-1);
+        workspace.getMainWindowController().getStepBack().setDisable(currentIndex<=0);
+
     }
 
     public TransitionView runTillIndex(int index){
@@ -131,6 +159,8 @@ public class RunController {
             pointingToCurrentIndex=stateView.getTransitionViewMap().get(test.charAt(i)+"");
             if(pointingToCurrentIndex==null){
                 return null;
+            }else{
+                stateView=pointingToCurrentIndex.getFinalStateView();
             }
         }
 
@@ -138,8 +168,23 @@ public class RunController {
     }
 
     public void setLabelColorsAccordingToProgress(){
+
         for (Node node : symbolContainer.getChildren()) {
-            ((TestSymbolLabel)node).setColorAccordingToIndexProgress();
+            TestSymbolLabel symbolLabel = (TestSymbolLabel) node;
+            symbolLabel.setColorAccordingToIndexProgress();
+
+            // check if this symbol is the selected symbol and we are at the last state
+            if(symbolLabel.getIndex()==currentIndex && currentIndex==test.length()-1){
+                if(currentState.getState().isFinalState()){
+                    symbolLabel.setTextFill(TestSymbolLabel.PASS_COLOR);
+                }else{
+                    symbolLabel.setTextFill(TestSymbolLabel.FAIL_COLOR);
+                }
+            }
         }
+    }
+
+    public StateView getCurrentState() {
+        return currentState;
     }
 }
