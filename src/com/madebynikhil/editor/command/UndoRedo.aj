@@ -12,7 +12,7 @@ import java.util.Stack;
  * them in the history stack.
  * Created by NikhilVerma on 09/11/16.
  */
-public privileged aspect UndoRedo {
+public aspect UndoRedo {
 
     private Stack<Command> history=new Stack<>();
     private Stack<Command> future=new Stack<>();

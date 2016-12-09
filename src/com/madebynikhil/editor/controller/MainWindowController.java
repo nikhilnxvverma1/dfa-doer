@@ -73,38 +73,6 @@ public class MainWindowController {
     }
 
     @FXML
-    public void mouseClicked(MouseEvent mouseEvent){
-        if (workspace.getRunController().isOpen()) {
-            if(mouseEvent.getClickCount()>=2){
-                closeAnimationPane();
-            }
-        }else{
-            this.workspace.getDesignerController().handleMouseClicked(mouseEvent);
-        }
-    }
-
-    @FXML
-    public void mousePressed(MouseEvent mouseEvent){
-        if (!workspace.getRunController().isOpen()) {
-            this.workspace.getDesignerController().handleMousePress(mouseEvent);
-        }
-    }
-
-    @FXML
-    public void mouseDragged(MouseEvent mouseEvent){
-        if (!workspace.getRunController().isOpen()) {
-            this.workspace.getDesignerController().handleMouseDrag(mouseEvent);
-        }
-    }
-    @FXML
-    public void mouseReleased(MouseEvent mouseEvent){
-        if (!workspace.getRunController().isOpen()) {
-            this.workspace.getDesignerController().handleMouseRelease(mouseEvent);
-        }
-
-    }
-
-    @FXML
     private void delete(ActionEvent actionEvent){
         System.out.println("Delete pressed");
         workspace.getDesignerController().deleteSelectedElements();
@@ -259,6 +227,39 @@ public class MainWindowController {
     @FXML
     void quit(ActionEvent event) {
         Platform.exit();
+    }
+
+    @FXML
+    public void mouseClicked(MouseEvent mouseEvent){
+        if (workspace.getRunController().isOpen()) {
+            if(mouseEvent.getClickCount()>=2){
+                closeAnimationPane();
+            }
+        }else{
+            this.workspace.getDesignerController().handleMouseClicked(mouseEvent);
+        }
+    }
+
+    @FXML
+    public void mousePressed(MouseEvent mouseEvent){
+        if (!workspace.getRunController().isOpen()) {
+            this.workspace.getDesignerController().handleMousePress(mouseEvent);
+        }
+    }
+
+    @FXML
+    public void mouseDragged(MouseEvent mouseEvent){
+        if (!workspace.getRunController().isOpen()) {
+            this.workspace.getDesignerController().handleMouseDrag(mouseEvent);
+        }
+    }
+
+    @FXML
+    public void mouseReleased(MouseEvent mouseEvent){
+        if (!workspace.getRunController().isOpen()) {
+            this.workspace.getDesignerController().handleMouseRelease(mouseEvent);
+        }
+
     }
 
     @FXML
